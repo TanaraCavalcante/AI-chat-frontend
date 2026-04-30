@@ -1,0 +1,171 @@
+<h2>Layout v3 — cores W-Tech + logo como avatar</h2>
+<p class="subtitle">Navbar com &lt;img&gt; placeholder · avatar do bot com o símbolo da logo · azul W-Tech</p>
+
+<style>
+  .wtech-navy { color: #1a2f6e; }
+  .bg-wtech-navy { background: #1a2f6e; }
+  .bg-wtech-blue { background: #3a5cc5; }
+  .border-wtech { border-color: #3a5cc5; }
+
+  .wtech-avatar {
+    width: 28px; height: 28px;
+    background: #1a2f6e;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 900;
+    color: #fff;
+    font-family: sans-serif;
+    border: 2px solid #3a5cc5;
+  }
+</style>
+
+<div style="margin-top: 20px; display: flex; flex-direction: column; gap: 28px; align-items: center;">
+
+  <!-- Estado SEM documento -->
+  <div style="max-width: 700px; width: 100%;">
+    <div style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Stato iniziale — nessun documento</div>
+    <div style="font-family: sans-serif; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.10);">
+
+      <!-- NAVBAR -->
+      <div style="background: #1a2f6e; color: #fff; padding: 10px 18px; display: flex; align-items: center; gap: 12px;">
+        <!-- Logo placeholder -->
+        <img src="" alt="W-Tech logo"
+          style="height: 32px; width: auto; display: block; background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.3); border-radius: 4px; min-width: 90px; padding: 4px 8px;"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.3); border-radius:4px; padding: 4px 12px; font-size: 10px; color: rgba(255,255,255,0.5);">
+          &lt;img src="logo.png"&gt; — coloque a logo aqui
+        </div>
+        <div style="margin-left: 8px;">
+          <div style="font-size: 13px; font-weight: 700; line-height: 1.2;">W-Tech AI Chat</div>
+          <div style="font-size: 10px; color: rgba(255,255,255,0.55); line-height: 1.2;">Assistente documentale</div>
+        </div>
+      </div>
+
+      <div style="display: flex; min-height: 280px;">
+
+        <!-- SIDEBAR -->
+        <div style="width: 170px; min-width: 170px; background: #fff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 14px 12px; gap: 14px;">
+          <div>
+            <div style="font-size: 9px; text-transform: uppercase; color: #94a3b8; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px;">Stato</div>
+            <span style="display: inline-block; background: #fee2e2; color: #991b1b; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px;">● Nessun documento</span>
+          </div>
+          <div style="border: 2px dashed #94a3b8; border-radius: 6px; padding: 12px; text-align: center; color: #64748b; font-size: 10px; cursor: pointer; background: #fafafa;">
+            <div style="font-size: 20px; margin-bottom: 6px;">📎</div>
+            <div style="font-weight: 600;">Carica documento</div>
+            <div style="color: #94a3b8; margin-top: 4px; font-size: 9px;">PDF · TXT · DOCX<br/>max. 20 MB</div>
+          </div>
+        </div>
+
+        <!-- CHAT AREA vazia -->
+        <div style="flex: 1; display: flex; flex-direction: column; background: #f8fafc;">
+          <div style="flex: 1; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 12px; text-align: center; padding: 16px;">
+            <div>
+              <div style="font-size: 30px; margin-bottom: 10px;">📄</div>
+              <div style="font-weight: 600; color: #64748b; margin-bottom: 4px;">Nessun documento caricato</div>
+              Carica un documento nella barra laterale<br/>per iniziare a fare domande.
+            </div>
+          </div>
+          <div style="border-top: 1px solid #e2e8f0; padding: 10px 12px; background: #fff; display: flex; gap: 8px; align-items: center;">
+            <div style="flex: 1; border: 1px solid #e2e8f0; border-radius: 20px; padding: 7px 14px; font-size: 11px; color: #cbd5e1; background: #f8fafc;">Carica un documento per iniziare…</div>
+            <div style="background: #e2e8f0; color: #94a3b8; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px;">▶</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado COM documento + chat -->
+  <div style="max-width: 700px; width: 100%;">
+    <div style="font-size: 11px; font-weight: 600; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Com documento — chat ativo · avatar com símbolo W-Tech</div>
+    <div style="font-family: sans-serif; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.10);">
+
+      <!-- NAVBAR -->
+      <div style="background: #1a2f6e; color: #fff; padding: 10px 18px; display: flex; align-items: center; gap: 12px;">
+        <div style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.3); border-radius:4px; padding: 4px 12px; font-size: 10px; color: rgba(255,255,255,0.5);">
+          &lt;img src="logo.png"&gt;
+        </div>
+        <div style="margin-left: 8px;">
+          <div style="font-size: 13px; font-weight: 700; line-height: 1.2;">W-Tech AI Chat</div>
+          <div style="font-size: 10px; color: rgba(255,255,255,0.55); line-height: 1.2;">Assistente documentale</div>
+        </div>
+      </div>
+
+      <div style="display: flex; min-height: 300px;">
+
+        <!-- SIDEBAR com doc -->
+        <div style="width: 170px; min-width: 170px; background: #fff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 14px 12px; gap: 14px;">
+          <div>
+            <div style="font-size: 9px; text-transform: uppercase; color: #94a3b8; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px;">Stato</div>
+            <span style="display: inline-block; background: #dcfce7; color: #166534; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px;">● Documento attivo</span>
+          </div>
+          <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 10px; font-size: 10px;">
+            <div style="font-weight: 600; color: #166534; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;">📄 relatorio.pdf</div>
+            <div style="color: #16a34a; font-size: 9px;">42 chunk indicizzati</div>
+          </div>
+          <button style="border: 1px solid #e2e8f0; background: #fff; color: #64748b; font-size: 10px; padding: 7px 8px; border-radius: 6px; cursor: pointer; text-align: center;">
+            🔄 Cambia documento
+          </button>
+        </div>
+
+        <!-- CHAT com avatar W-Tech -->
+        <div style="flex: 1; display: flex; flex-direction: column; background: #f8fafc;">
+          <div style="flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 12px; justify-content: flex-end;">
+
+            <!-- Mensagem user -->
+            <div style="display: flex; justify-content: flex-end;">
+              <div style="background: #1a2f6e; color: #fff; border-radius: 14px 14px 2px 14px; padding: 8px 12px; font-size: 11px; max-width: 70%;">
+                Qual è la conclusione del rapporto?
+              </div>
+            </div>
+
+            <!-- Mensagem bot com avatar W-Tech -->
+            <div style="display: flex; gap: 8px; align-items: flex-end;">
+              <!-- Avatar: símbolo da logo W-Tech (placeholder circular) -->
+              <div style="width: 28px; height: 28px; background: #1a2f6e; border-radius: 50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; border: 2px solid #3a5cc5; overflow:hidden;">
+                <img src="" alt="" style="width:100%; height:100%; object-fit:contain;"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <span style="color:#fff; font-size:11px; font-weight:900; display:none;">W</span>
+              </div>
+              <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 14px 14px 14px 2px; padding: 8px 12px; font-size: 11px; max-width: 70%; color: #334155;">
+                La conclusione indica che i risultati del primo trimestre hanno superato le aspettative del 12%...
+              </div>
+            </div>
+
+            <!-- Segunda mensagem para mostrar o padrão -->
+            <div style="display: flex; justify-content: flex-end;">
+              <div style="background: #1a2f6e; color: #fff; border-radius: 14px 14px 2px 14px; padding: 8px 12px; font-size: 11px; max-width: 70%;">
+                Quali sono i punti principali?
+              </div>
+            </div>
+
+            <!-- Spinner (aguardando resposta) -->
+            <div style="display: flex; gap: 8px; align-items: flex-end;">
+              <div style="width: 28px; height: 28px; background: #1a2f6e; border-radius: 50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; border: 2px solid #3a5cc5;">
+                <span style="color:#fff; font-size:11px; font-weight:900;">W</span>
+              </div>
+              <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 14px 14px 14px 2px; padding: 8px 14px; font-size: 11px; color: #94a3b8; font-style: italic;">
+                ● ● &nbsp; <span style="font-size: 10px;">elaborazione in corso…</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Input ativo -->
+          <div style="border-top: 1px solid #e2e8f0; padding: 10px 12px; background: #fff; display: flex; gap: 8px; align-items: center;">
+            <div style="flex: 1; border: 1px solid #cbd5e1; border-radius: 20px; padding: 7px 14px; font-size: 11px; color: #475569; background: #fff;">Scrivi la tua domanda…</div>
+            <div style="background: #1a2f6e; color: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer;">▶</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 16px; max-width: 700px; margin-left: auto; margin-right: auto; background: #eff6ff; border: 1px solid #3a5cc5; border-radius: 6px; padding: 12px; font-size: 13px; color: #1a2f6e;">
+  <strong>Cores:</strong> Navbar e bolhas do utilizador em <code>#1a2f6e</code> (azul W-Tech). Botão enviar igual. Avatar do bot: círculo <code>#1a2f6e</code> com borda <code>#3a5cc5</code> — quando você colocar a logo em <code>public/images/logo-symbol.png</code>, o "W" some e aparece a imagem.
+</div>

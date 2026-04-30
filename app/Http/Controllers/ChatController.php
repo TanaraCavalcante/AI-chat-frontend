@@ -30,13 +30,14 @@ class ChatController extends Controller
 
         $response = Http::timeout(300)
             ->attach('file', file_get_contents($file->path()), $file->getClientOriginalName())
-            ->post($this->apiUrl . '/api/upload', array_filter([
+            ->post($this->apiUrl.'/api/upload', array_filter([
                 'session_id' => $sessionId,
             ]));
 
         if ($response->successful()) {
             $data = $response->json();
             session(['python_session_id' => $data['session_id']]);
+
             return response()->json($data);
         }
 
@@ -55,9 +56,9 @@ class ChatController extends Controller
             );
         }
 
-        $response = Http::timeout(60)->post($this->apiUrl . '/api/chat', [
+        $response = Http::timeout(60)->post($this->apiUrl.'/api/chat', [
             'session_id' => $sessionId,
-            'pergunta'   => $request->pergunta,
+            'pergunta' => $request->pergunta,
         ]);
 
         if ($response->successful()) {
@@ -72,7 +73,7 @@ class ChatController extends Controller
         $sessionId = session('python_session_id');
 
         if ($sessionId) {
-            Http::timeout(10)->post($this->apiUrl . '/api/clear', [
+            Http::timeout(10)->post($this->apiUrl.'/api/clear', [
                 'session_id' => $sessionId,
             ]);
             session()->forget('python_session_id');

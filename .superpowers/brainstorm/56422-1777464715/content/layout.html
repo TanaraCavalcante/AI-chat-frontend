@@ -1,0 +1,78 @@
+<h2>Layout da interface do chatbot</h2>
+<p class="subtitle">Qual estrutura visual faz mais sentido para você?</p>
+
+<div class="cards" style="margin-top: 24px;">
+
+  <!-- Opção A: Full-page chat centrado -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 16px; background: #f8fafc;">
+      <div style="font-family: monospace; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden;">
+        <!-- Navbar -->
+        <div style="background: #1e293b; color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+          <span>🤖</span>
+          <strong>AI Chat</strong>
+          <span style="margin-left: auto; background: #ef4444; border-radius: 12px; padding: 2px 8px; font-size: 10px;">Sem documento</span>
+        </div>
+        <!-- Upload zone -->
+        <div style="margin: 10px; border: 2px dashed #94a3b8; border-radius: 6px; padding: 12px; text-align: center; background: #fff; color: #64748b; font-size: 11px;">
+          <div>📎 Arraste um PDF, TXT ou DOCX aqui</div>
+          <div style="margin-top: 4px; font-size: 10px; color: #94a3b8;">ou clique para selecionar · máx. 20 MB</div>
+        </div>
+        <!-- Chat area -->
+        <div style="background: #f1f5f9; margin: 0 10px; border-radius: 6px; padding: 8px; min-height: 80px; font-size: 10px; color: #94a3b8; text-align: center; display: flex; align-items: center; justify-content: center;">
+          As mensagens aparecem aqui
+        </div>
+        <!-- Input -->
+        <div style="display: flex; gap: 6px; margin: 8px 10px; align-items: center;">
+          <div style="flex: 1; border: 1px solid #cbd5e1; border-radius: 20px; padding: 6px 12px; font-size: 10px; color: #94a3b8; background:#fff;">Carregue um documento para começar…</div>
+          <div style="background: #3b82f6; color: #fff; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 12px;">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Página única vertical</h3>
+      <p>Navbar → zona upload → área de chat → input. Layout simples, tudo em sequência. Upload colapsa após envio do documento.</p>
+    </div>
+  </div>
+
+  <!-- Opção B: Sidebar + chat -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 16px; background: #f8fafc;">
+      <div style="font-family: monospace; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden;">
+        <!-- Navbar -->
+        <div style="background: #1e293b; color: #fff; padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+          <span>🤖</span>
+          <strong>AI Chat</strong>
+        </div>
+        <!-- Two columns -->
+        <div style="display: flex; min-height: 140px;">
+          <!-- Sidebar -->
+          <div style="width: 100px; background: #fff; border-right: 1px solid #e2e8f0; padding: 8px; font-size: 10px;">
+            <div style="font-weight: bold; color: #475569; margin-bottom: 6px; font-size: 9px; text-transform: uppercase;">Documento</div>
+            <div style="border: 2px dashed #cbd5e1; border-radius: 4px; padding: 8px; text-align: center; color: #94a3b8; font-size: 9px;">
+              📎 Upload<br/>PDF/TXT/DOCX
+            </div>
+            <div style="margin-top: 8px; color: #94a3b8; font-size: 9px;">Sem doc carregado</div>
+          </div>
+          <!-- Chat main -->
+          <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 8px; background: #f8fafc;">
+            <div style="font-size: 10px; color: #94a3b8; text-align: center; margin-bottom: 8px;">As mensagens aparecem aqui</div>
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <div style="flex: 1; border: 1px solid #cbd5e1; border-radius: 12px; padding: 4px 8px; font-size: 9px; color: #94a3b8; background: #fff;">Escreva a sua pergunta…</div>
+              <div style="background: #3b82f6; color: #fff; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px;">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sidebar + área de chat</h3>
+      <p>Coluna lateral fixa com upload e info do documento. Chat ocupa o restante. Upload sempre visível, não colapsa.</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 16px; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 6px; padding: 12px; font-size: 13px; color: #1e3a5f;">
+  <strong>Nota:</strong> Ambas usam Bootstrap 5 via CDN. A opção A é mais limpa para mobile. A opção B deixa o estado do documento sempre visível.
+</div>

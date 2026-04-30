@@ -1,0 +1,86 @@
+<h2>Estado de carregamento durante indexação</h2>
+<p class="subtitle">O que mostrar enquanto o documento está a ser processado?</p>
+
+<div class="cards" style="margin-top: 24px;">
+
+  <!-- Opção A: progress steps inline na sidebar -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 16px; background: #f8fafc;">
+      <div style="font-family: sans-serif; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+        <div style="background: #1a2f6e; color:#fff; padding: 8px 14px; font-size:11px; font-weight:700;">W-Tech AI Chat</div>
+        <div style="display:flex; min-height: 200px;">
+          <div style="width:170px; background:#fff; border-right:1px solid #e2e8f0; padding:12px; display:flex; flex-direction:column; gap:10px;">
+            <div>
+              <div style="font-size:9px; text-transform:uppercase; color:#94a3b8; font-weight:600; margin-bottom:5px;">Stato</div>
+              <span style="background:#fef9c3; color:#854d0e; font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; display:inline-block;">⏳ Indicizzazione…</span>
+            </div>
+            <!-- Steps de progresso -->
+            <div style="font-size:10px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; align-items:center; gap:6px; color:#16a34a;">
+                <span>✓</span> <span>Lettura file</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; color:#16a34a;">
+                <span>✓</span> <span>Divisione chunk</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; color:#1a2f6e; font-weight:600;">
+                <span style="animation: none;">⟳</span> <span>Embeddings…</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; color:#94a3b8;">
+                <span>○</span> <span>Indicizzazione FAISS</span>
+              </div>
+            </div>
+            <!-- Nome do ficheiro em progresso -->
+            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:7px; font-size:9px; color:#0369a1;">
+              📄 relatorio.pdf<br/>
+              <div style="background:#e0f2fe; border-radius:3px; height:4px; margin-top:5px; overflow:hidden;">
+                <div style="background:#0ea5e9; width:60%; height:100%; border-radius:3px;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11px; background:#f8fafc;">
+            Chat disponível após indexação
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Steps na sidebar</h3>
+      <p>Mostra os 4 passos (leitura → chunks → embeddings → FAISS) inline na sidebar, com check verde para os concluídos e spinner no atual. Educacional — o utilizador vê o que o RAG está a fazer.</p>
+    </div>
+  </div>
+
+  <!-- Opção B: spinner simples -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 16px; background: #f8fafc;">
+      <div style="font-family: sans-serif; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+        <div style="background: #1a2f6e; color:#fff; padding: 8px 14px; font-size:11px; font-weight:700;">W-Tech AI Chat</div>
+        <div style="display:flex; min-height: 200px;">
+          <div style="width:170px; background:#fff; border-right:1px solid #e2e8f0; padding:12px; display:flex; flex-direction:column; gap:10px;">
+            <div>
+              <div style="font-size:9px; text-transform:uppercase; color:#94a3b8; font-weight:600; margin-bottom:5px;">Stato</div>
+              <span style="background:#fef9c3; color:#854d0e; font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; display:inline-block;">⏳ Caricamento…</span>
+            </div>
+            <!-- Card simples com spinner -->
+            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:10px; text-align:center; font-size:10px; color:#0369a1;">
+              <div style="font-size:20px; margin-bottom:6px;">⟳</div>
+              <div style="font-weight:600;">relatorio.pdf</div>
+              <div style="color:#7dd3fc; margin-top:3px;">Elaborazione in corso…</div>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11px; background:#f8fafc;">
+            Chat disponível após indexação
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Spinner simples</h3>
+      <p>Só mostra o nome do ficheiro e "Elaborazione in corso…" com um spinner. Mais limpo, menos informação. Faz sentido se o objetivo não é ensinar os passos do RAG.</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px; background:#eff6ff; border:1px solid #3a5cc5; border-radius:6px; padding:12px; font-size:13px; color:#1a2f6e;">
+  <strong>Nota:</strong> Em ambos os casos, o input fica bloqueado durante a indexação. Ao terminar, o badge muda para "N fonti attive" (verde) e o chat fica disponível automaticamente.
+</div>
