@@ -1,0 +1,87 @@
+<x-master title="W-Tech AI Chat">
+
+    {{-- LAYOUT PRINCIPAL --}}
+    <div class="chat-layout">
+
+        {{-- SIDEBAR --}}
+        <div id="sidebar">
+
+            {{-- Badge stato --}}
+            <div>
+                <div class="text-uppercase fw-semibold mb-1 section-label">Stato</div>
+                <span id="status-badge" class="badge-no-doc px-3 py-1 rounded-pill fw-semibold">● Nessun documento</span>
+            </div>
+
+            {{-- Steps de indexação (oculto por defeito) --}}
+            <div id="indexing-steps" style="display:none;">
+                <div class="text-uppercase fw-semibold mb-1 section-label">Indicizzazione</div>
+                <div id="filename-progress" class="fw-semibold text-primary mb-2"></div>
+                <div class="progress mb-2 progress-tiny">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated progress-indexing"></div>
+                </div>
+                <div class="step-list">
+                    <div id="step-read"  class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
+                    <div id="step-chunk" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
+                    <div id="step-embed" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
+                    <div id="step-faiss" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
+                </div>
+            </div>
+
+            {{-- Lista de documentos (oculta por defeito) --}}
+            <div id="doc-list-section" style="display:none;">
+                <div class="text-uppercase fw-semibold mb-1 section-label">Documenti</div>
+                <div id="doc-list"></div>
+            </div>
+
+            {{-- Zona upload --}}
+            <div id="upload-zone" class="upload-zone" onclick="document.getElementById('file-input').click()">
+                <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
+                <i class="fa-solid fa-paperclip mb-1 d-block upload-icon"></i>
+                <div class="fw-semibold" id="upload-label">Carica documento</div>
+                <div class="upload-hint">PDF · TXT · DOCX · XLSX · max 20 MB</div>
+            </div>
+
+            {{-- Ricomincia (oculto por defeito) --}}
+            <button id="btn-ricomincia" style="display:none;" onclick="ricomincia()">
+                <i class="fa-solid fa-rotate-left fa-xs"></i> Ricomincia
+            </button>
+
+        </div>
+
+        {{-- CHAT AREA --}}
+        <div class="chat-area">
+
+            {{-- Mensagens --}}
+            <div id="chat-messages">
+                <div id="chat-empty">
+                    <i class="fa-regular fa-file-lines d-block mb-2 empty-icon"></i>
+                    <div class="fw-semibold mb-1 empty-title">Nessun documento caricato</div>
+                    Carica un documento nella barra laterale<br>per iniziare a fare domande.
+                </div>
+            </div>
+
+            {{-- Input bar --}}
+            <div id="input-bar">
+                <div class="input-pill">
+                    <input type="text" id="chat-input"
+                           placeholder="Carica un documento per iniziare…"
+                           disabled
+                           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}">
+                    <span id="fonti-counter">0 fonti</span>
+                    <button id="btn-send" class="btn-send" onclick="sendMessage()" disabled>
+                        <i class="fa-solid fa-arrow-right fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{-- Toast container --}}
+    <div id="toast-container"></div>
+
+    @push('scripts')
+        <script src="{{ asset('js/chat.js') }}"></script>
+    @endpush
+
+</x-master>
