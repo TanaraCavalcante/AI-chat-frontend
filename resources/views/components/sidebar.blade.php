@@ -1,12 +1,12 @@
 <div id="sidebar">
 
     {{-- Badge stato --}}
-    <div>
-        <div class="text-uppercase fw-semibold mb-1 section-label">Stato</div>
+    <div class="mb-3">
+        <div class="text-uppercase fw-semibold mb-3 section-label">Stato</div>
         <span id="status-badge" class="badge-no-doc px-3 py-1 rounded-pill fw-semibold">● Nessun documento</span>
     </div>
 
-    {{-- Steps de indexação (oculto por defeito) --}}
+    {{-- Steps di indicizzazione (nascosto per impostazione predefinita) --}}
     <div id="indexing-steps" style="display:none;">
         <div class="text-uppercase fw-semibold mb-1 section-label">Indicizzazione</div>
         <div id="filename-progress" class="fw-semibold text-primary mb-2"></div>
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    {{-- Lista de documentos (oculta por defeito) --}}
+    {{-- Lista documenti (nascosta per impostazione predefinita) --}}
     <div id="doc-list-section" style="display:none;">
         <div class="text-uppercase fw-semibold mb-1 section-label">Documenti</div>
         <div id="doc-list"></div>
@@ -31,11 +31,11 @@
     <div id="upload-zone" class="upload-zone" onclick="document.getElementById('file-input').click()">
         <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
         <i class="fa-solid fa-paperclip mb-1 d-block upload-icon"></i>
-        <div class="fw-semibold" id="upload-label">Carica documento</div>
+        <div class="fw-semibold mb-2" id="upload-label">Carica documento</div>
         <div class="upload-hint">PDF · TXT · DOCX · XLSX · max 20 MB</div>
     </div>
 
-    {{-- Ricomincia (oculto por defeito) --}}
+    {{-- Ricomincia (nascosto per impostazione predefinita) --}}
     <button id="btn-ricomincia" style="display:none;" onclick="ricomincia()">
         <i class="fa-solid fa-rotate-left fa-xs"></i> Ricomincia
     </button>
