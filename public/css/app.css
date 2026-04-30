@@ -4,7 +4,8 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 
 /* ── Navbar ──────────────────────────────────────────────────────────────────── */
 .wtech-navbar { background: #1a2f6e; }
-.wtech-navbar img.logo { height: 36px; }
+.wtech-navbar img.logo { height: 36px; display: block; }
+.wtech-navbar .logo-wrapper { border-radius: 20px; overflow: hidden; padding: 4px 8px; }
 
 /* ── Chat layout ─────────────────────────────────────────────────────────────── */
 .chat-layout { display: flex; flex: 1; overflow: hidden; }

@@ -1,4 +1,5 @@
 *.log
+.playwright-mcp/
 .DS_Store
 .env
 .env.backup
