@@ -4,7 +4,7 @@
     </div>
 
     <div>
-        <div class="text-white fw-bold navbar-title">W-Tech AI Chat</div>
+        <div class="text-white fw-bold navbar-title">AI Chat</div>
         <div class="text-white-50 navbar-subtitle">Assistente documentale</div>
     </div>
 </nav>

@@ -104,8 +104,8 @@ function handleFileUpload(file) {
     fetch('/upload', { method: 'POST', body: formData })
         .then(r => r.json())
         .then(data => {
-            if (data.error || data.errors) {
-                const msg = data.error || Object.values(data.errors).flat().join(' ');
+            if (data.error || data.errors || !data.session_id) {
+                const msg = data.error || (data.errors ? Object.values(data.errors).flat().join(' ') : 'Servizio non disponibile. Avvia api.py.');
                 showToast(msg);
                 resetAfterError();
                 return;
@@ -188,9 +188,9 @@ function sendMessage() {
 
 function avatarHtml() {
     return `<div class="bot-avatar">
-        <img src="/images/logo.png" alt="W"
+        <img src="/images/atomic.png" alt="Chat-bot avatar"
              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <span class="fallback">W</span>
+        <span class="fallback">WT</span>
     </div>`;
 }
 
