@@ -231,8 +231,23 @@ function scrollToBottom() {
 
 // ── Ricomincia ────────────────────────────────────────────────────────────────
 function ricomincia() {
-    if (!confirm('Ricominciare? La sessione e la cronologia verranno eliminate.')) return;
+    Swal.fire({
+        title: 'Ricominciare?',
+        text: 'La sessione e la cronologia verranno eliminate.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sì, ricomincia',
+        cancelButtonText: 'Annulla',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#94a3b8',
+        reverseButtons: true,
+    }).then(result => {
+        if (!result.isConfirmed) return;
+        _doRicomincia();
+    });
+}
 
+function _doRicomincia() {
     fetch('/clear', {
         method: 'POST',
         headers: {
