@@ -11,7 +11,7 @@ class ChatController extends Controller
 
     public function __construct()
     {
-        $this->apiUrl = env('PYTHON_API_URL', 'http://127.0.0.1:5000');
+        $this->apiUrl = env('PYTHON_API_URL', 'http://127.0.0.1:5001');
     }
 
     public function index()
