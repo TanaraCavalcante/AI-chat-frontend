@@ -1,5 +1,10 @@
 # Changelog
 
+## [2026-05-11] - Rinominato brand in "AI W-TECH"
+
+### Modificato
+- Titolo pagina e label navbar aggiornati da "W-Tech AI Chat" / "AI Chat" a "AI W-TECH"
+
 ## [2026-05-07] - Corretto fallback porta API Python
 
 ### Corretto

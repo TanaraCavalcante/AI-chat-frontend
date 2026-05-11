@@ -1,4 +1,4 @@
-<x-master title="W-Tech AI Chat">
+<x-master title="AI W-TECH">
 
     {{-- LAYOUT PRINCIPAL --}}
     <div class="chat-layout">
