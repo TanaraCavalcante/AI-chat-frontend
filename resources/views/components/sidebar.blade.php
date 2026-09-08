@@ -21,7 +21,7 @@
         <i class="fa-solid fa-cloud-arrow-up fs-5 text-purple-light d-block mb-2"></i>
         <div class="fw-semibold text-white fs-7" id="upload-label">Carica un documento</div>
         <div class="text-muted-2 fs-8 mt-1">Trascina un file qui o clicca per selezionare</div>
-        <div class="text-muted-3 fs-8 mt-2">PDF &middot; TXT &middot; DOCX &middot; XLSX &middot; Max 20 MB</div>
+        <div class="text-muted-2 fs-8 mt-2">PDF &middot; TXT &middot; DOCX &middot; XLSX &middot; Max 20 MB</div>
     </div>
 
     {{-- Stato di indicizzazione (nascosto per impostazione predefinita) --}}

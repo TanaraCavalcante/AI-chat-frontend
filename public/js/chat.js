@@ -53,7 +53,7 @@ function updateUI() {
                         <div class="text-muted-2 fs-8">${meta.label} &middot; ${formatSize(d.size)}</div>
                     </div>
                     <div class="d-flex flex-column align-items-end gap-1">
-                        <span class="text-muted-3 fs-8">Caricato</span>
+                        <span class="text-muted-2 fs-8">Caricato</span>
                         <button class="doc-item-remove" title="Rimuovi documento" onclick="removeDoc('${d.doc_id}')">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
@@ -199,9 +199,9 @@ function removeDoc(docId) {
         if (docs.length === 0) {
             sessionId = null;
             document.getElementById('chat-messages').innerHTML = `
-                <div id="chat-empty">
+                <div id="chat-empty" class="m-auto text-center text-muted fs-7">
                     <i class="fa-regular fa-file-lines d-block mb-2 empty-icon"></i>
-                    <div class="fw-semibold mb-1 empty-title">Nessun documento caricato</div>
+                    <div class="fw-semibold mb-1 text-secondary">Nessun documento caricato</div>
                     Carica un documento nella barra laterale<br>per iniziare a fare domande.
                 </div>
             `;
@@ -259,10 +259,10 @@ function sendMessage() {
 }
 
 function avatarHtml() {
-    return `<div class="bot-avatar">
+    return `<div class="bot-avatar bg-lilac">
         <img src="/images/bot-icon.png" alt="Chat-bot avatar"
              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <span class="fallback">TA</span>
+        <span class="fallback text-white fw-bold fs-8">TA</span>
     </div>`;
 }
 
@@ -272,10 +272,10 @@ function formatTime() {
 
 function appendUserBubble(text) {
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div class="bubble-user-wrapper">
+        <div class="bubble-user-wrapper d-flex justify-content-end">
             <div class="d-flex flex-column align-items-end">
-                <div class="bubble-user">${escapeHtml(text)}</div>
-                <div class="bubble-time fs-8 mt-1">${formatTime()}</div>
+                <div class="bubble-user bg-purple fs-7 text-white">${escapeHtml(text)}</div>
+                <div class="text-muted fs-8 mt-1">${formatTime()}</div>
             </div>
         </div>
     `);
@@ -286,11 +286,11 @@ function appendBotBubble(html, copyable = false) {
         ? `<button type="button" class="bubble-copy-btn" onclick="copyBubbleText(this)" title="Copia risposta"><i class="fa-regular fa-copy"></i></button>`
         : '';
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div class="bubble-bot-wrapper">
+        <div class="bubble-bot-wrapper d-flex align-items-start gap-2">
             ${avatarHtml()}
-            <div class="bubble-bot">
+            <div class="bubble-bot fs-7">
                 <div class="bubble-bot-text">${html}</div>
-                <div class="d-flex align-items-center justify-content-end gap-2 bubble-time fs-8 mt-2">
+                <div class="d-flex align-items-center justify-content-end gap-2 text-muted fs-8 mt-2">
                     <span>${formatTime()}</span>
                     ${copyBtn}
                 </div>
@@ -334,9 +334,9 @@ function copyBubbleText(btn) {
 function appendSpinnerBubble() {
     const id = 'spinner-' + Date.now();
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div id="${id}" class="bubble-bot-wrapper">
+        <div id="${id}" class="bubble-bot-wrapper d-flex align-items-start gap-2">
             ${avatarHtml()}
-            <div class="bubble-bot bubble-spinner">
+            <div class="bubble-bot fst-italic text-muted fs-7">
                 <span class="me-1">● ●</span> elaborazione in corso…
             </div>
         </div>

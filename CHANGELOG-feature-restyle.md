@@ -1,3 +1,15 @@
+## [2026-09-08] - Correzioni al layout dei fumetti e cache-busting di chat.js
+
+### Corretto
+- Ripristinato `display: flex` su `.bubble-user-wrapper` e `.bubble-bot-wrapper`, perso per errore durante la semplificazione CSS: con risposte lunghe o durante lo spinner "elaborazione in corso", l'avatar del bot finiva sopra il fumetto invece che di fianco
+- Sfondo lilla spostato dall'intera area di chat al solo fumetto del bot (era stato applicato per errore all'area intera)
+
+### Aggiunto
+- Cache-busting (`?v=filemtime`) anche su `chat.js`, come gia' presente su `app.css`, per evitare che il browser serva una versione in cache dopo una modifica
+
+### Modificato
+- Semplificati ulteriormente i colori di aside e bubbles con le utility Bootstrap/generiche gia' esistenti (`bg-purple`, `bg-lilac`, `text-muted` nel tema chiaro); consolidato `.text-muted-2`/`.text-muted-3` in una sola classe per il tema scuro dell'aside
+
 ## [2026-09-08] - Restyle dell'area di chat: orario, copia risposta, scrollbar
 
 ### Aggiunto
