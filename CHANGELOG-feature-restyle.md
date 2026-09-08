@@ -1,3 +1,9 @@
+## [2026-09-08] - Correzioni da code review su ChatController
+
+### Modificato
+- Spostato l'URL dell'API Python da `env('PYTHON_API_URL')` diretto nel controller a `config('services.python_api.url')` (nuova voce in `config/services.php`), cosi' funziona correttamente con `config:cache`
+- Aggiunto il tipo di ritorno esplicito (`View`, `JsonResponse`) a tutti i metodi pubblici di `ChatController`, non solo al nuovo `removeDoc()`, per coerenza in tutto il file
+
 ## [2026-09-08] - Footer dell'aside con crediti
 
 ### Aggiunto

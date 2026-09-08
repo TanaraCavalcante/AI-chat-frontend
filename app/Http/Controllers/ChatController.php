@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -11,15 +13,15 @@ class ChatController extends Controller
 
     public function __construct()
     {
-        $this->apiUrl = env('PYTHON_API_URL', 'http://127.0.0.1:5001');
+        $this->apiUrl = config('services.python_api.url');
     }
 
-    public function index()
+    public function index(): View
     {
         return view('chat');
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request): JsonResponse
     {
         $request->validate([
             'file' => 'required|file|mimes:pdf,txt,docx,xlsx|max:20480',
@@ -44,7 +46,7 @@ class ChatController extends Controller
         return response()->json($response->json(), $response->status());
     }
 
-    public function chat(Request $request)
+    public function chat(Request $request): JsonResponse
     {
         $request->validate(['pergunta' => 'required|string|max:2000']);
 
@@ -68,7 +70,7 @@ class ChatController extends Controller
         return response()->json($response->json(), $response->status());
     }
 
-    public function removeDoc(Request $request)
+    public function removeDoc(Request $request): JsonResponse
     {
         $request->validate(['doc_id' => 'required|string']);
 
@@ -97,7 +99,7 @@ class ChatController extends Controller
         return response()->json($response->json(), $response->status());
     }
 
-    public function clear(Request $request)
+    public function clear(Request $request): JsonResponse
     {
         $sessionId = session('python_session_id');
 
