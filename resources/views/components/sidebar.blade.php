@@ -18,10 +18,10 @@
     {{-- Zona upload --}}
     <div id="upload-zone" class="aside-full upload-zone" onclick="document.getElementById('file-input').click()">
         <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
-        <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
-        <div class="fw-semibold" id="upload-label">Carica un documento</div>
-        <div class="upload-hint-main">Trascina un file qui o clicca per selezionare</div>
-        <div class="upload-hint">PDF &middot; TXT &middot; DOCX &middot; XLSX &middot; Max 20 MB</div>
+        <i class="fa-solid fa-cloud-arrow-up fs-5 text-purple-light d-block mb-2"></i>
+        <div class="fw-semibold text-white fs-7" id="upload-label">Carica un documento</div>
+        <div class="text-muted-2 fs-8 mt-1">Trascina un file qui o clicca per selezionare</div>
+        <div class="text-muted-3 fs-8 mt-2">PDF &middot; TXT &middot; DOCX &middot; XLSX &middot; Max 20 MB</div>
     </div>
 
     {{-- Stato di indicizzazione (nascosto per impostazione predefinita) --}}
@@ -30,11 +30,11 @@
         <div class="progress mb-2 progress-tiny">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-purple"></div>
         </div>
-        <div class="step-list">
-            <div id="step-read"  class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
-            <div id="step-chunk" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
-            <div id="step-embed" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
-            <div id="step-faiss" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
+        <div class="d-flex flex-column gap-1">
+            <div id="step-read"  class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
+            <div id="step-chunk" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
+            <div id="step-embed" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
+            <div id="step-faiss" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
             <span class="section-label">Documenti caricati</span>
             <span class="doc-count-badge" id="doc-count-badge">0</span>
         </div>
-        <div id="doc-list"></div>
+        <div id="doc-list" class="d-flex flex-column gap-2"></div>
     </div>
 
     {{-- Come funziona --}}
@@ -85,8 +85,8 @@
     </div>
 
     {{-- Ricomincia (nascosto per impostazione predefinita) --}}
-    <button id="btn-ricomincia" class="aside-full" style="display:none;" onclick="ricomincia()">
-        <i class="fa-solid fa-trash-can fa-xs"></i> Rimuovi tutti i documenti
+    <button id="btn-ricomincia" class="aside-full text-red-light fs-7" style="display:none;" onclick="ricomincia()">
+        <i class="fa-solid fa-rotate-left fa-xs"></i> Reset
     </button>
 
     </div>

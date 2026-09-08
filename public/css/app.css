@@ -6,6 +6,11 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 .fs-7 { font-size: 0.75rem; }
 .fs-8 { font-size: 0.65rem; }
 .text-purple { color: #7c6ff0; }
+.text-purple-light { color: #a79cf7; }
+.text-green-light { color: #4ade80; }
+.text-red-light { color: #f87171; }
+.text-muted-2 { color: #8f89ac; }
+.text-muted-3 { color: #6b6690; }
 .bg-purple { background: #7c6ff0; }
 .bg-card { background: #211c3d; }
 .border-faint { border-color: rgba(255,255,255,.06) !important; }
@@ -80,37 +85,20 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
     transition: border-color .2s, background .2s;
 }
 .upload-zone:hover, .upload-zone.dragover { border-color: #8b7cf6; background: rgba(124,111,240,.12); }
-.upload-icon { font-size: 20px; color: #a79cf7; display: block; margin-bottom: 6px; }
-#upload-label { font-size: 13px; color: #f0eefa; }
-.upload-hint-main { font-size: 10.5px; color: #8f89ac; margin-top: 2px; }
-.upload-hint { font-size: 9.5px; color: #6b6690; margin-top: 6px; }
 
 /* ── Stato di indicizzazione ──────────────────────────────────────────────────── */
 .progress-tiny { height: 4px; }
-.step-list { display: flex; flex-direction: column; gap: 5px; }
-.step-item { font-size: 11px; color: #8f89ac; display: flex; align-items: center; gap: 6px; }
-.step-item.active { color: #a79cf7; font-weight: 600; }
-.step-item.done   { color: #4ade80; }
 
 /* ── Document list ───────────────────────────────────────────────────────────── */
-#doc-list { display: flex; flex-direction: column; gap: 8px; }
-.doc-item {
-    background: #211c3d; border: 1px solid rgba(255,255,255,.06); border-radius: 10px;
-    padding: 9px 10px; display: flex; align-items: center; gap: 9px;
-}
 .doc-icon {
     width: 30px; height: 30px; min-width: 30px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
 }
-.doc-icon-pdf  { background: rgba(248,113,113,.16); color: #f87171; }
+.doc-icon-pdf  { background: rgba(248,113,113,.16); }
 .doc-icon-docx { background: rgba(96,165,250,.16);  color: #60a5fa; }
-.doc-icon-xlsx { background: rgba(74,222,128,.16);  color: #4ade80; }
+.doc-icon-xlsx { background: rgba(74,222,128,.16); }
 .doc-icon-txt  { background: rgba(148,163,184,.16); color: #94a3b8; }
-.doc-item-info { flex: 1; min-width: 0; }
-.doc-item-name { color: #f0eefa; font-size: 12px; font-weight: 600; }
-.doc-item-meta { color: #8f89ac; font-size: 10px; margin-top: 1px; }
-.doc-item-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.doc-item-status { color: #6b6690; font-size: 9.5px; }
+.doc-item-info { min-width: 0; }
 .doc-item-remove {
     width: 20px; height: 20px; border: none; background: transparent; color: #6b6690;
     border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center;
@@ -127,10 +115,10 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
     display: flex; align-items: center; justify-content: center; margin-top: 1px;
 }
 
-/* ── Ricomincia ──────────────────────────────────────────────────────────────── */
+/* ── Reset ──────────────────────────────────────────────────────────────── */
 #btn-ricomincia {
-    border: 1px solid rgba(248,113,113,.35); background: rgba(248,113,113,.08); color: #f87171;
-    font-size: 11px; padding: 7px 10px; border-radius: 8px; cursor: pointer;
+    border: 1px solid rgba(248,113,113,.35); background: rgba(248,113,113,.08);
+    padding: 7px 10px; border-radius: 8px; cursor: pointer;
 }
 #btn-ricomincia:hover { background: rgba(248,113,113,.16); }
 

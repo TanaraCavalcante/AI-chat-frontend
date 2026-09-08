@@ -3,9 +3,9 @@ let sessionId = null;
 let docs = []; // [{doc_id: string, name: string, chunks: number, type: string, size: number}]
 
 const FILE_TYPE_META = {
-    '.pdf':  { label: 'PDF',  icon: 'fa-file-pdf',   cls: 'doc-icon-pdf' },
+    '.pdf':  { label: 'PDF',  icon: 'fa-file-pdf',   cls: 'doc-icon-pdf text-red-light' },
     '.docx': { label: 'DOCX', icon: 'fa-file-word',  cls: 'doc-icon-docx' },
-    '.xlsx': { label: 'XLSX', icon: 'fa-file-excel', cls: 'doc-icon-xlsx' },
+    '.xlsx': { label: 'XLSX', icon: 'fa-file-excel', cls: 'doc-icon-xlsx text-green-light' },
     '.txt':  { label: 'TXT',  icon: 'fa-file-lines', cls: 'doc-icon-txt' },
 };
 
@@ -46,14 +46,14 @@ function updateUI() {
         listEl.innerHTML = docs.map(d => {
             const meta = FILE_TYPE_META[d.type] || FILE_TYPE_META['.txt'];
             return `
-                <div class="doc-item">
-                    <div class="doc-icon ${meta.cls}"><i class="fa-solid ${meta.icon}"></i></div>
-                    <div class="doc-item-info">
-                        <div class="doc-item-name text-truncate">${escapeHtml(d.name)}</div>
-                        <div class="doc-item-meta">${meta.label} &middot; ${formatSize(d.size)}</div>
+                <div class="bg-card border border-faint rounded-3 p-2 d-flex align-items-center gap-2">
+                    <div class="doc-icon ${meta.cls} fs-7"><i class="fa-solid ${meta.icon}"></i></div>
+                    <div class="doc-item-info flex-fill">
+                        <div class="text-white fw-semibold fs-7 text-truncate">${escapeHtml(d.name)}</div>
+                        <div class="text-muted-2 fs-8">${meta.label} &middot; ${formatSize(d.size)}</div>
                     </div>
-                    <div class="doc-item-actions">
-                        <span class="doc-item-status">Caricato</span>
+                    <div class="d-flex flex-column align-items-end gap-1">
+                        <span class="text-muted-3 fs-8">Caricato</span>
                         <button class="doc-item-remove" title="Rimuovi documento" onclick="removeDoc('${d.doc_id}')">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
@@ -116,7 +116,8 @@ function handleFileUpload(file) {
     const stepIds = ['step-read', 'step-chunk', 'step-embed', 'step-faiss'];
     stepIds.forEach(id => {
         const el = document.getElementById(id);
-        el.className = 'step-item';
+        el.classList.remove('text-green-light');
+        el.classList.add('text-muted-2');
         el.querySelector('i').className = 'fa-solid fa-circle-dot fa-xs';
     });
 
@@ -166,7 +167,8 @@ function handleFileUpload(file) {
 
 function markStepDone(id) {
     const el = document.getElementById(id);
-    el.className = 'step-item done';
+    el.classList.remove('text-muted-2');
+    el.classList.add('text-green-light');
     el.querySelector('i').className = 'fa-solid fa-check fa-xs';
 }
 
@@ -302,11 +304,11 @@ function scrollToBottom() {
 // ── Ricomincia ────────────────────────────────────────────────────────────────
 function ricomincia() {
     Swal.fire({
-        title: 'Rimuovere tutti i documenti?',
+        title: 'Reset della chat?',
         text: 'Tutti i file caricati e la cronologia della chat verranno eliminati.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sì, rimuovi tutto',
+        confirmButtonText: 'Sì, resetta',
         cancelButtonText: 'Annulla',
         reverseButtons: true,
         heightAuto: false,

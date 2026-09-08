@@ -1,3 +1,16 @@
+## [2026-09-08] - Semplificazione del CSS dell'aside con utility Bootstrap
+
+### Aggiunto
+- Nuove classi generiche per colori riutilizzati nell'aside: `.text-purple-light`, `.text-green-light`, `.text-red-light`, `.text-muted-2`, `.text-muted-3`
+
+### Modificato
+- Zona di upload, stato di indicizzazione, lista documenti e pulsante di reset riscritti con utility Bootstrap (`d-flex`, `gap-*`, `rounded-3`, `fs-7`/`fs-8`, ecc.) al posto di classi CSS dedicate, mantenendo solo cio' che non ha un equivalente diretto (dimensioni fisse, pulsanti circolari, hover)
+- `chat.js`: il toggle degli step di indicizzazione ora usa `classList.add/remove` invece di sostituire l'intero `className`, cosi' non cancella piu' le classi utility statiche applicate nel markup
+- Pulsante "Rimuovi tutti i documenti" rinominato in "Reset" (icona e testo del modale di conferma aggiornati di conseguenza), piu' coerente con l'azione
+
+### Rimosso
+- CSS morto: `.step-item.active`, mai applicato dal JS
+
 ## [2026-09-08] - Header dell'aside fisso e scrollbar personalizzata
 
 ### Aggiunto
