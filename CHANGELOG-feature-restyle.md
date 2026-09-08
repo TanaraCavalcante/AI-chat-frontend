@@ -1,3 +1,8 @@
+## [2026-09-08] - Salvataggio asset icona bot alternativa
+
+### Aggiunto
+- `public/images/bot-icon2.png`: variante dell'icona del bot, salvata nel repo per sicurezza; non ancora referenziata nel codice
+
 ## [2026-09-08] - Correzioni al layout dei fumetti e cache-busting di chat.js
 
 ### Corretto
