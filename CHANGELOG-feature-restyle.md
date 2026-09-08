@@ -1,3 +1,9 @@
+## [2026-09-08] - Sezione "Come funziona?" a scomparsa e chiarezza sul pulsante di reset
+
+### Modificato
+- La sezione "Come funziona?" nell'aside ora è collassabile (Bootstrap collapse): chiusa di default, si apre cliccando sul titolo, con chevron che ruota in base allo stato
+- Rinominato il pulsante "Ricomincia" in "Rimuovi tutti i documenti" (con icona cestino), e aggiornato il testo di conferma, per chiarire che l'azione elimina tutti i file caricati e la cronologia della chat
+
 ## [2026-09-08] - Ripristino animazione di indicizzazione e affinamenti aside
 
 ### Aggiunto

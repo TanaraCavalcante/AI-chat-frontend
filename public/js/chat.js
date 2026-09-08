@@ -297,11 +297,11 @@ function scrollToBottom() {
 // ── Ricomincia ────────────────────────────────────────────────────────────────
 function ricomincia() {
     Swal.fire({
-        title: 'Ricominciare?',
-        text: 'La sessione e la cronologia verranno eliminate.',
+        title: 'Rimuovere tutti i documenti?',
+        text: 'Tutti i file caricati e la cronologia della chat verranno eliminati.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sì, ricomincia',
+        confirmButtonText: 'Sì, rimuovi tutto',
         cancelButtonText: 'Annulla',
         confirmButtonColor: '#ef4444',
         cancelButtonColor: '#94a3b8',

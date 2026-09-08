@@ -43,38 +43,44 @@
 
     {{-- Come funziona --}}
     <div class="bg-card border border-faint rounded-3 p-3">
-        <div class="d-flex align-items-center gap-2 fw-bold text-white fs-6 mb-2">
-            <i class="fa-solid fa-wand-magic-sparkles text-purple"></i> Come funziona?
-        </div>
+        <button type="button" class="how-toggle d-flex align-items-center justify-content-between gap-2 fw-bold text-white fs-6 w-100 bg-transparent border-0 p-0"
+                data-bs-toggle="collapse" data-bs-target="#how-it-works-body" aria-expanded="false" aria-controls="how-it-works-body">
+            <span class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-purple"></i> Come funziona?
+            </span>
+            <i class="fa-solid fa-chevron-down fs-8 text-white-50 how-toggle-chevron"></i>
+        </button>
 
-        <div class="d-flex align-items-start gap-2 mb-2">
-            <span class="how-step-num bg-purple text-white fw-bold fs-8">1</span>
-            <div>
-                <div class="text-white fw-semibold fs-7">Carica il tuo documento</div>
-                <div class="text-white-50 fs-8">Aggiungi il file che vuoi analizzare</div>
+        <div class="collapse" id="how-it-works-body">
+            <div class="d-flex align-items-start gap-2 mt-3 mb-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">1</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">Carica il tuo documento</div>
+                    <div class="text-white-50 fs-8">Aggiungi il file che vuoi analizzare</div>
+                </div>
             </div>
-        </div>
 
-        <div class="d-flex align-items-start gap-2 mb-2">
-            <span class="how-step-num bg-purple text-white fw-bold fs-8">2</span>
-            <div>
-                <div class="text-white fw-semibold fs-7">L'IA lo legge e lo elabora</div>
-                <div class="text-white-50 fs-8">Ricerca semantica nel contenuto (RAG)</div>
+            <div class="d-flex align-items-start gap-2 mb-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">2</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">L'IA lo legge e lo elabora</div>
+                    <div class="text-white-50 fs-8">Ricerca semantica nel contenuto (RAG)</div>
+                </div>
             </div>
-        </div>
 
-        <div class="d-flex align-items-start gap-2">
-            <span class="how-step-num bg-purple text-white fw-bold fs-8">3</span>
-            <div>
-                <div class="text-white fw-semibold fs-7">Ricevi la risposta</div>
-                <div class="text-white-50 fs-8">Con risposte precise e contestualizzate</div>
+            <div class="d-flex align-items-start gap-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">3</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">Ricevi la risposta</div>
+                    <div class="text-white-50 fs-8">Con risposte precise e contestualizzate</div>
+                </div>
             </div>
         </div>
     </div>
 
     {{-- Ricomincia (nascosto per impostazione predefinita) --}}
     <button id="btn-ricomincia" style="display:none;" onclick="ricomincia()">
-        <i class="fa-solid fa-rotate-left fa-xs"></i> Ricomincia
+        <i class="fa-solid fa-trash-can fa-xs"></i> Rimuovi tutti i documenti
     </button>
 
 </aside>
