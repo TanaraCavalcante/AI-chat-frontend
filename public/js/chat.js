@@ -107,6 +107,24 @@ function handleFileUpload(file) {
     document.getElementById('upload-zone').style.display = 'none';
     document.getElementById('filename-progress').textContent = file.name;
 
+    // Reset visual dos steps
+    const stepIds = ['step-read', 'step-chunk', 'step-embed', 'step-faiss'];
+    stepIds.forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'step-item';
+        el.querySelector('i').className = 'fa-solid fa-circle-dot fa-xs';
+    });
+
+    // Animação client-side dos steps (simulada com timers, calibrada pela duração
+    // típica de cada fase — embeddings é de longe a mais lenta). Se a resposta real
+    // chegar antes, todos os steps pendentes são concluídos de uma vez (abaixo),
+    // evitando ficarem presos em cinza enquanto o FAISS já aparece pronto.
+    const stepTimers = [
+        setTimeout(() => markStepDone('step-read'), 400),
+        setTimeout(() => markStepDone('step-chunk'), 900),
+        setTimeout(() => markStepDone('step-embed'), 2200),
+    ];
+
     // Enviar ficheiro ao Laravel
     const formData = new FormData();
     formData.append('file', file);
@@ -116,24 +134,35 @@ function handleFileUpload(file) {
     fetch('/upload', { method: 'POST', body: formData })
         .then(r => r.json())
         .then(data => {
+            stepTimers.forEach(clearTimeout);
             if (data.error || data.errors || !data.session_id) {
                 const msg = data.error || (data.errors ? Object.values(data.errors).flat().join(' ') : 'Servizio non disponibile. Avvia api.py.');
                 showToast(msg);
                 resetAfterError();
                 return;
             }
-            sessionId = data.session_id;
-            const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
-            docs.push({ doc_id: data.doc_id, name: data.filename, chunks: data.chunks, type: ext, size: file.size });
-            document.getElementById('indexing-steps').style.display = 'none';
-            document.getElementById('upload-zone').style.display = '';
-            document.getElementById('file-input').value = '';
-            updateUI();
+            stepIds.forEach(markStepDone);
+            setTimeout(() => {
+                sessionId = data.session_id;
+                const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+                docs.push({ doc_id: data.doc_id, name: data.filename, chunks: data.chunks, type: ext, size: file.size });
+                document.getElementById('indexing-steps').style.display = 'none';
+                document.getElementById('upload-zone').style.display = '';
+                document.getElementById('file-input').value = '';
+                updateUI();
+            }, 500);
         })
         .catch(() => {
+            stepTimers.forEach(clearTimeout);
             showToast('Servizio non disponibile. Avvia api.py.');
             resetAfterError();
         });
+}
+
+function markStepDone(id) {
+    const el = document.getElementById(id);
+    el.className = 'step-item done';
+    el.querySelector('i').className = 'fa-solid fa-check fa-xs';
 }
 
 function resetAfterError() {

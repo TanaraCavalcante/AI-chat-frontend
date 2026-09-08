@@ -4,7 +4,7 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 
 /* ── generics ─────────────────────────────────────────────────────────────── */
 .fs-7 { font-size: 0.75rem; }
-.fs-8 { font-size: 0.5rem; }
+.fs-8 { font-size: 0.65rem; }
 .text-purple { color: #7c6ff0; }
 .bg-purple { background: #7c6ff0; }
 .bg-card { background: #211c3d; }
@@ -48,12 +48,11 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 .upload-hint { font-size: 9.5px; color: #6b6690; margin-top: 6px; }
 
 /* ── Stato di indicizzazione ──────────────────────────────────────────────────── */
-#indexing-steps {
-    border: 1.5px solid rgba(124,111,240,.35); border-radius: 10px;
-    padding: 14px 10px; text-align: center; background: rgba(124,111,240,.06);
-}
-.indexing-filename { font-size: 11px; color: #f0eefa; font-weight: 600; word-break: break-all; margin-bottom: 6px; }
-.indexing-spinner { font-size: 11px; color: #a79cf7; }
+.progress-tiny { height: 4px; }
+.step-list { display: flex; flex-direction: column; gap: 5px; }
+.step-item { font-size: 11px; color: #8f89ac; display: flex; align-items: center; gap: 6px; }
+.step-item.active { color: #a79cf7; font-weight: 600; }
+.step-item.done   { color: #4ade80; }
 
 /* ── Document list ───────────────────────────────────────────────────────────── */
 #doc-list { display: flex; flex-direction: column; gap: 8px; }

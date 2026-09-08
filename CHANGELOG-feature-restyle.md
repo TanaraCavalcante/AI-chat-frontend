@@ -1,3 +1,13 @@
+## [2026-09-08] - Ripristino animazione di indicizzazione e affinamenti aside
+
+### Aggiunto
+- Scala di font-size generica (`.fs-7` = 0.75rem, `.fs-8` = 0.5rem) accanto a quella nativa di Bootstrap (`.fs-6` = 1rem)
+
+### Modificato
+- Ripristinata l'animazione a 4 fasi durante l'upload (Lettura file → Divisione in chunk → Generazione embeddings → Indicizzazione FAISS), rimossa per errore durante il restyle iniziale
+- Timing dell'animazione ricalibrato sulla durata tipica di ogni fase (embeddings è la più lenta) e corretto un bug per cui, con risposte rapide del backend, l'ultimo step risultava completato mentre quelli precedenti restavano bloccati in attesa
+- Header dell'aside riscritto con classi utility Bootstrap; icona del bot ingrandita e senza più il contenitore con sfondo/bordo
+
 ## [2026-09-08] - Restyle dell'aside e rimozione del brand W-Tech
 
 ### Aggiunto

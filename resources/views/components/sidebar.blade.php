@@ -19,9 +19,17 @@
     </div>
 
     {{-- Stato di indicizzazione (nascosto per impostazione predefinita) --}}
-    <div id="indexing-steps" style="display:none;">
-        <div class="indexing-filename" id="filename-progress"></div>
-        <div class="indexing-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Indicizzazione in corso&hellip;</div>
+    <div id="indexing-steps" class="bg-card border border-faint rounded-3 p-3" style="display:none;">
+        <div class="fw-semibold text-white fs-7 mb-2 text-truncate" id="filename-progress"></div>
+        <div class="progress mb-2 progress-tiny">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-purple"></div>
+        </div>
+        <div class="step-list">
+            <div id="step-read"  class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
+            <div id="step-chunk" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
+            <div id="step-embed" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
+            <div id="step-faiss" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
+        </div>
     </div>
 
     {{-- Lista documenti (nascosta per impostazione predefinita) --}}
