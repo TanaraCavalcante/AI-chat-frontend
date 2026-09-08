@@ -247,7 +247,7 @@ function sendMessage() {
                 appendBotBubble(`<em style="color:#ef4444;">${escapeHtml(data.error)}</em>`);
             }
         } else {
-            appendBotBubble(escapeHtml(data.resposta).replace(/\n/g, '<br>'));
+            appendBotBubble(escapeHtml(data.resposta).replace(/\n/g, '<br>'), true);
         }
         scrollToBottom();
     })
@@ -266,21 +266,69 @@ function avatarHtml() {
     </div>`;
 }
 
+function formatTime() {
+    return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+}
+
 function appendUserBubble(text) {
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
         <div class="bubble-user-wrapper">
-            <div class="bubble-user">${escapeHtml(text)}</div>
+            <div class="d-flex flex-column align-items-end">
+                <div class="bubble-user">${escapeHtml(text)}</div>
+                <div class="bubble-time fs-8 mt-1">${formatTime()}</div>
+            </div>
         </div>
     `);
 }
 
-function appendBotBubble(html) {
+function appendBotBubble(html, copyable = false) {
+    const copyBtn = copyable
+        ? `<button type="button" class="bubble-copy-btn" onclick="copyBubbleText(this)" title="Copia risposta"><i class="fa-regular fa-copy"></i></button>`
+        : '';
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
         <div class="bubble-bot-wrapper">
             ${avatarHtml()}
-            <div class="bubble-bot">${html}</div>
+            <div class="bubble-bot">
+                <div class="bubble-bot-text">${html}</div>
+                <div class="d-flex align-items-center justify-content-end gap-2 bubble-time fs-8 mt-2">
+                    <span>${formatTime()}</span>
+                    ${copyBtn}
+                </div>
+            </div>
         </div>
     `);
+}
+
+function copyBubbleText(btn) {
+    const bubble = btn.closest('.bubble-bot').querySelector('.bubble-bot-text');
+    const text = bubble.innerText;
+
+    const onCopied = () => {
+        const icon = btn.querySelector('i');
+        icon.className = 'fa-solid fa-check';
+        setTimeout(() => { icon.className = 'fa-regular fa-copy'; }, 1500);
+    };
+    const onFailed = () => showToast('Impossibile copiare il testo.');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopied).catch(onFailed);
+        return;
+    }
+
+    // Fallback per contesti non sicuri (es. http://*.test), dove Clipboard API non esiste
+    try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        onCopied();
+    } catch (e) {
+        onFailed();
+    }
 }
 
 function appendSpinnerBubble() {

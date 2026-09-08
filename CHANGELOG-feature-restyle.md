@@ -1,3 +1,17 @@
+## [2026-09-08] - Restyle dell'area di chat: orario, copia risposta, scrollbar
+
+### Aggiunto
+- Orario (formato HH:MM) sotto ogni messaggio, sia lato utente sia lato bot
+- Pulsante per copiare il testo della risposta, dentro il fumetto del bot (solo sulle risposte reali, non sugli errori), con fallback `execCommand` per contesti non sicuri (es. `http://*.test`) dove la Clipboard API non e' disponibile
+- Scrollbar sottile e personalizzata anche per l'area messaggi, coerente con quella dell'aside
+
+### Modificato
+- Avatar del bot allineato in alto invece che in basso nel fumetto
+- Sfondo dell'area di chat da bianco (`#f8fafc`) a lilla chiaro (`#f3f1fb`)
+
+### Rimosso
+- Asset immagine non piu' referenziati (`atomic.png`, `logo.png`, residui del brand W-Tech)
+
 ## [2026-09-08] - Semplificazione del CSS dell'aside con utility Bootstrap
 
 ### Aggiunto
