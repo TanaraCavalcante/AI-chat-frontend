@@ -13,6 +13,8 @@
         </button>
     </div>
 
+    <div id="sidebar-scroll">
+
     {{-- Zona upload --}}
     <div id="upload-zone" class="aside-full upload-zone" onclick="document.getElementById('file-input').click()">
         <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
@@ -50,7 +52,7 @@
         <button type="button" class="how-toggle d-flex align-items-center justify-content-between gap-2 fw-bold text-white fs-6 w-100 bg-transparent border-0 p-0"
                 data-bs-toggle="collapse" data-bs-target="#how-it-works-body" aria-expanded="false" aria-controls="how-it-works-body">
             <span class="d-flex align-items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-purple"></i> Come funziona?
+                <i class="fa-solid fa-wand-magic-sparkles text-purple how-toggle-icon"></i> Come funziona?
             </span>
             <i class="fa-solid fa-chevron-down fs-8 text-white-50 how-toggle-chevron"></i>
         </button>
@@ -86,6 +88,8 @@
     <button id="btn-ricomincia" class="aside-full" style="display:none;" onclick="ricomincia()">
         <i class="fa-solid fa-trash-can fa-xs"></i> Rimuovi tutti i documenti
     </button>
+
+    </div>
 
 </div>
 </aside>

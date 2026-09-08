@@ -1,3 +1,12 @@
+## [2026-09-08] - Header dell'aside fisso e scrollbar personalizzata
+
+### Aggiunto
+- Scrollbar sottile e personalizzata (colore viola translucido, thumb arrotondato) per l'area scorrevole dell'aside, a filo del bordo destro
+
+### Modificato
+- L'header del brand (icona, titolo, chevron) resta fisso in cima all'aside: solo la sezione sottostante (upload, documenti, come funziona, rimuovi tutto) scorre
+- Corretto lo stato hover del chevron di "Come funziona?": ora cambia colore solo il chevron, non piu' anche l'icona della bacchetta
+
 ## [2026-09-08] - Sidebar retrattile con anteprima al passaggio del mouse
 
 ### Aggiunto
