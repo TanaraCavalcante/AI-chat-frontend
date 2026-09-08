@@ -27,7 +27,7 @@
                            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}">
                     <span id="fonti-counter">0 fonti</span>
                     <button id="btn-send" class="btn-send" onclick="sendMessage()" disabled>
-                        <i class="fa-solid fa-arrow-right fa-sm"></i>
+                        <i class="fa-solid fa-paper-plane fa-sm"></i>
                     </button>
                 </div>
             </div>

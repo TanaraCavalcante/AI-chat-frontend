@@ -1,3 +1,8 @@
+## [2026-09-08] - Icona di invio coerente nella input bar
+
+### Modificato
+- Icona del pulsante di invio nella chat cambiata da freccia a aeroplanino di carta, coerente con il mockup
+
 ## [2026-09-08] - Salvataggio asset icona bot alternativa
 
 ### Aggiunto
