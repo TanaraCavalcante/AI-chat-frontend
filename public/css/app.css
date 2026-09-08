@@ -45,6 +45,10 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 .aside-header { flex-shrink: 0; padding-right: 16px; }
 #sidebar.collapsed .aside-header { padding-right: 12px; }
 
+.aside-footer { flex-shrink: 0; padding: 4px 16px 14px; }
+.aside-footer-link { transition: color .2s; }
+.aside-footer-link:hover { color: #a79cf7 !important; }
+
 #sidebar-scroll {
     flex: 1; min-height: 0;
     display: flex; flex-direction: column; gap: 18px;

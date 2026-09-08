@@ -1,3 +1,11 @@
+## [2026-09-08] - Footer dell'aside con crediti
+
+### Aggiunto
+- Riga di credito in fondo all'aside: "Powered by Groq" (link a groq.com) e nome della sviluppatrice con link al suo GitHub
+
+### Corretto
+- Il footer non scompariva insieme al resto del contenuto quando l'aside veniva compresso: `.d-flex` di Bootstrap (che usa `!important`) vinceva sul `display:none` di `.aside-full` stando sullo stesso elemento. Risolto separando in un wrapper esterno (solo `.aside-full`) e un figlio interno con le utility di layout, stesso pattern gia' usato per l'header
+
 ## [2026-09-08] - Icona di invio coerente nella input bar
 
 ### Modificato

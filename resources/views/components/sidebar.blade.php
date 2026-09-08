@@ -91,5 +91,18 @@
 
     </div>
 
+    {{-- Powered by --}}
+    <div class="aside-full aside-footer">
+        <div class="d-flex align-items-center flex-wrap gap-1 fs-8 text-muted-2">
+            <a href="https://groq.com" target="_blank" rel="noopener noreferrer" class="aside-footer-link d-inline-flex align-items-center gap-1 text-muted-2 text-decoration-none">
+                <i class="fa-solid fa-bolt text-purple-light"></i> Powered by Groq
+            </a>
+            <span>&middot;</span>
+            <a href="https://github.com/TanaraCavalcante" target="_blank" rel="noopener noreferrer" class="aside-footer-link d-inline-flex align-items-center gap-1 text-muted-2 text-decoration-none">
+                Tanara Cavalcante <i class="fa-solid fa-heart"></i>
+            </a>
+        </div>
+    </div>
+
 </div>
 </aside>
