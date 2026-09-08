@@ -1,43 +1,108 @@
-<div id="sidebar">
+<aside id="sidebar">
+<div id="sidebar-inner">
 
-    {{-- Badge stato --}}
-    <div class="mb-3">
-        <div class="text-uppercase fw-semibold mb-3 section-label">Stato</div>
-        <span id="status-badge" class="badge-no-doc px-3 py-1 rounded-pill fw-semibold">● Nessun documento</span>
+    {{-- Header del brand --}}
+    <div class="aside-header d-flex align-items-center gap-2">
+        <img src="{{ asset('images/bot-icon.png') }}" alt="Tanas'AI" class="aside-brand-icon flex-shrink-0" onerror="this.style.display='none'">
+        <div class="aside-full flex-grow-1 text-truncate">
+            <div class="fw-bold text-white lh-sm fs-5" >Tanas'<span class="text-purple">AI</span></div>
+            <div class="text-white-50 lh-sm fs-8">Documenti &rarr; Risposte intelligenti</div>
+        </div>
+        <button type="button" class="aside-full sidebar-pin-toggle flex-shrink-0" onclick="toggleSidebarPin()" title="Blocca/comprimi la sidebar">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
     </div>
 
-    {{-- Steps di indicizzazione (nascosto per impostazione predefinita) --}}
-    <div id="indexing-steps" style="display:none;">
-        <div class="text-uppercase fw-semibold mb-1 section-label">Indicizzazione</div>
-        <div id="filename-progress" class="fw-semibold text-primary mb-2"></div>
+    <div id="sidebar-scroll">
+
+    {{-- Zona upload --}}
+    <div id="upload-zone" class="aside-full upload-zone" onclick="document.getElementById('file-input').click()">
+        <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
+        <i class="fa-solid fa-cloud-arrow-up fs-5 text-purple-light d-block mb-2"></i>
+        <div class="fw-semibold text-white fs-7" id="upload-label">Carica un documento</div>
+        <div class="text-muted-2 fs-8 mt-1">Trascina un file qui o clicca per selezionare</div>
+        <div class="text-muted-2 fs-8 mt-2">PDF &middot; TXT &middot; DOCX &middot; XLSX &middot; Max 20 MB</div>
+    </div>
+
+    {{-- Stato di indicizzazione (nascosto per impostazione predefinita) --}}
+    <div id="indexing-steps" class="aside-full bg-card border border-faint rounded-3 p-3" style="display:none;">
+        <div class="fw-semibold text-white fs-7 mb-2 text-truncate" id="filename-progress"></div>
         <div class="progress mb-2 progress-tiny">
-            <div class="progress-bar progress-bar-striped progress-bar-animated progress-indexing"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-purple"></div>
         </div>
-        <div class="step-list">
-            <div id="step-read"  class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
-            <div id="step-chunk" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
-            <div id="step-embed" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
-            <div id="step-faiss" class="step-item"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
+        <div class="d-flex flex-column gap-1">
+            <div id="step-read"  class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Lettura file</div>
+            <div id="step-chunk" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Divisione in chunk</div>
+            <div id="step-embed" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Generazione embeddings</div>
+            <div id="step-faiss" class="d-flex align-items-center gap-2 fs-8 text-muted-2"><i class="fa-solid fa-circle-dot fa-xs"></i> Indicizzazione FAISS</div>
         </div>
     </div>
 
     {{-- Lista documenti (nascosta per impostazione predefinita) --}}
-    <div id="doc-list-section" style="display:none;">
-        <div class="text-uppercase fw-semibold mb-1 section-label">Documenti</div>
-        <div id="doc-list"></div>
+    <div id="doc-list-section" class="aside-full" style="display:none;">
+        <div class="section-label-row">
+            <span class="section-label">Documenti caricati</span>
+            <span class="doc-count-badge" id="doc-count-badge">0</span>
+        </div>
+        <div id="doc-list" class="d-flex flex-column gap-2"></div>
     </div>
 
-    {{-- Zona upload --}}
-    <div id="upload-zone" class="upload-zone" onclick="document.getElementById('file-input').click()">
-        <input type="file" id="file-input" style="display:none;" accept=".pdf,.txt,.docx,.xlsx">
-        <i class="fa-solid fa-paperclip mb-1 d-block upload-icon"></i>
-        <div class="fw-semibold mb-2" id="upload-label">Carica documento</div>
-        <div class="upload-hint">PDF · TXT · DOCX · XLSX · max 20 MB</div>
+    {{-- Come funziona --}}
+    <div class="aside-full bg-card border border-faint rounded-3 p-3">
+        <button type="button" class="how-toggle d-flex align-items-center justify-content-between gap-2 fw-bold text-white fs-6 w-100 bg-transparent border-0 p-0"
+                data-bs-toggle="collapse" data-bs-target="#how-it-works-body" aria-expanded="false" aria-controls="how-it-works-body">
+            <span class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-purple how-toggle-icon"></i> Come funziona?
+            </span>
+            <i class="fa-solid fa-chevron-down fs-8 text-white-50 how-toggle-chevron"></i>
+        </button>
+
+        <div class="collapse" id="how-it-works-body">
+            <div class="d-flex align-items-start gap-2 mt-3 mb-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">1</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">Carica il tuo documento</div>
+                    <div class="text-white-50 fs-8">Aggiungi il file che vuoi analizzare</div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-2 mb-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">2</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">L'IA lo legge e lo elabora</div>
+                    <div class="text-white-50 fs-8">Ricerca semantica nel contenuto (RAG)</div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-2">
+                <span class="how-step-num bg-purple text-white fw-bold fs-8">3</span>
+                <div>
+                    <div class="text-white fw-semibold fs-7">Ricevi la risposta</div>
+                    <div class="text-white-50 fs-8">Con risposte precise e contestualizzate</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- Ricomincia (nascosto per impostazione predefinita) --}}
-    <button id="btn-ricomincia" style="display:none;" onclick="ricomincia()">
-        <i class="fa-solid fa-rotate-left fa-xs"></i> Ricomincia
+    <button id="btn-ricomincia" class="aside-full text-red-light fs-7" style="display:none;" onclick="ricomincia()">
+        <i class="fa-solid fa-rotate-left fa-xs"></i> Reset
     </button>
 
+    </div>
+
+    {{-- Powered by --}}
+    <div class="aside-full aside-footer">
+        <div class="d-flex align-items-center flex-wrap gap-1 fs-8 text-muted-2">
+            <a href="https://groq.com" target="_blank" rel="noopener noreferrer" class="aside-footer-link d-inline-flex align-items-center gap-1 text-muted-2 text-decoration-none">
+                <i class="fa-solid fa-bolt text-purple-light"></i> Powered by Groq
+            </a>
+            <span>&middot;</span>
+            <a href="https://github.com/TanaraCavalcante" target="_blank" rel="noopener noreferrer" class="aside-footer-link d-inline-flex align-items-center gap-1 text-muted-2 text-decoration-none">
+                Tanara Cavalcante <i class="fa-solid fa-heart"></i>
+            </a>
+        </div>
+    </div>
+
 </div>
+</aside>

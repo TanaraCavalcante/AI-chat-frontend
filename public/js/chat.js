@@ -1,45 +1,72 @@
 // ── Estado ────────────────────────────────────────────────────────────────────
 let sessionId = null;
-let docs = []; // [{name: string, chunks: number}]
+let docs = []; // [{doc_id: string, name: string, chunks: number, type: string, size: number}]
+
+const FILE_TYPE_META = {
+    '.pdf':  { label: 'PDF',  icon: 'fa-file-pdf',   cls: 'doc-icon-pdf text-red-light' },
+    '.docx': { label: 'DOCX', icon: 'fa-file-word',  cls: 'doc-icon-docx' },
+    '.xlsx': { label: 'XLSX', icon: 'fa-file-excel', cls: 'doc-icon-xlsx text-green-light' },
+    '.txt':  { label: 'TXT',  icon: 'fa-file-lines', cls: 'doc-icon-txt' },
+};
+
+// ── Sidebar retrattile ───────────────────────────────────────────────────────
+function toggleSidebarPin() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+}
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.getElementById('file-input').addEventListener('change', function () {
     if (this.files[0]) handleFileUpload(this.files[0]);
 });
 
+const uploadZone = document.getElementById('upload-zone');
+['dragenter', 'dragover'].forEach(evt => uploadZone.addEventListener(evt, e => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+}));
+['dragleave', 'drop'].forEach(evt => uploadZone.addEventListener(evt, e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+}));
+uploadZone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileUpload(file);
+});
+
 // ── Atualiza a UI com base no estado atual ────────────────────────────────────
 function updateUI() {
     const hasDocs = docs.length > 0;
 
-    // Badge de estado
-    const badge = document.getElementById('status-badge');
-    if (hasDocs) {
-        badge.className = 'badge-active px-3 py-1 rounded-pill fw-semibold';
-        badge.textContent = `● ${docs.length} ${docs.length === 1 ? 'fonte attiva' : 'fonti attive'}`;
-    } else {
-        badge.className = 'badge-no-doc px-3 py-1 rounded-pill fw-semibold';
-        badge.textContent = '● Nessun documento';
-    }
-
     // Lista de documentos
     const listSection = document.getElementById('doc-list-section');
     const listEl = document.getElementById('doc-list');
+    document.getElementById('doc-count-badge').textContent = docs.length;
     if (hasDocs) {
         listSection.style.display = '';
-        listEl.innerHTML = docs.map(d => `
-            <div class="doc-item">
-                <div class="fw-semibold text-truncate doc-item-name">
-                    <i class="fa-regular fa-file fa-xs me-1"></i>${escapeHtml(d.name)}
+        listEl.innerHTML = docs.map(d => {
+            const meta = FILE_TYPE_META[d.type] || FILE_TYPE_META['.txt'];
+            return `
+                <div class="bg-card border border-faint rounded-3 p-2 d-flex align-items-center gap-2">
+                    <div class="doc-icon ${meta.cls} fs-7"><i class="fa-solid ${meta.icon}"></i></div>
+                    <div class="doc-item-info flex-fill">
+                        <div class="text-white fw-semibold fs-7 text-truncate">${escapeHtml(d.name)}</div>
+                        <div class="text-muted-2 fs-8">${meta.label} &middot; ${formatSize(d.size)}</div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end gap-1">
+                        <span class="text-muted-2 fs-8">Caricato</span>
+                        <button class="doc-item-remove" title="Rimuovi documento" onclick="removeDoc('${d.doc_id}')">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="doc-item-chunks">${d.chunks} chunk</div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     } else {
         listSection.style.display = 'none';
     }
 
     // Label e estado da zona de upload
-    document.getElementById('upload-label').textContent = hasDocs ? 'Aggiungi fonte' : 'Carica documento';
+    document.getElementById('upload-label').textContent = hasDocs ? 'Aggiungi fonte' : 'Carica un documento';
     const zone = document.getElementById('upload-zone');
     if (docs.length >= 5) {
         zone.style.opacity = '0.4';
@@ -67,6 +94,12 @@ function updateUI() {
     if (emptyEl) emptyEl.style.display = hasDocs ? 'none' : '';
 }
 
+function formatSize(bytes) {
+    if (!bytes && bytes !== 0) return '';
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 // ── Upload de documento ───────────────────────────────────────────────────────
 function handleFileUpload(file) {
     if (docs.length >= 5) {
@@ -75,25 +108,28 @@ function handleFileUpload(file) {
         return;
     }
 
-    // Mostrar estado de indexação
-    document.getElementById('status-badge').className = 'badge-indexing px-3 py-1 rounded-pill fw-semibold';
-    document.getElementById('status-badge').textContent = '⏳ Indicizzazione…';
     document.getElementById('indexing-steps').style.display = '';
     document.getElementById('upload-zone').style.display = 'none';
     document.getElementById('filename-progress').textContent = file.name;
 
     // Reset visual dos steps
-    ['step-read', 'step-chunk', 'step-embed', 'step-faiss'].forEach(id => {
+    const stepIds = ['step-read', 'step-chunk', 'step-embed', 'step-faiss'];
+    stepIds.forEach(id => {
         const el = document.getElementById(id);
-        el.className = 'step-item';
+        el.classList.remove('text-green-light');
+        el.classList.add('text-muted-2');
         el.querySelector('i').className = 'fa-solid fa-circle-dot fa-xs';
     });
 
-    // Animação client-side dos steps (simulada com timers)
-    setTimeout(() => markStepDone('step-read'), 300);
-    setTimeout(() => markStepDone('step-chunk'), 900);
-    setTimeout(() => markStepDone('step-embed'), 1800);
-    // step-faiss é marcado quando a resposta HTTP chegar
+    // Animação client-side dos steps (simulada com timers, calibrada pela duração
+    // típica de cada fase — embeddings é de longe a mais lenta). Se a resposta real
+    // chegar antes, todos os steps pendentes são concluídos de uma vez (abaixo),
+    // evitando ficarem presos em cinza enquanto o FAISS já aparece pronto.
+    const stepTimers = [
+        setTimeout(() => markStepDone('step-read'), 400),
+        setTimeout(() => markStepDone('step-chunk'), 900),
+        setTimeout(() => markStepDone('step-embed'), 2200),
+    ];
 
     // Enviar ficheiro ao Laravel
     const formData = new FormData();
@@ -104,16 +140,18 @@ function handleFileUpload(file) {
     fetch('/upload', { method: 'POST', body: formData })
         .then(r => r.json())
         .then(data => {
+            stepTimers.forEach(clearTimeout);
             if (data.error || data.errors || !data.session_id) {
                 const msg = data.error || (data.errors ? Object.values(data.errors).flat().join(' ') : 'Servizio non disponibile. Avvia api.py.');
                 showToast(msg);
                 resetAfterError();
                 return;
             }
-            markStepDone('step-faiss');
+            stepIds.forEach(markStepDone);
             setTimeout(() => {
                 sessionId = data.session_id;
-                docs.push({ name: data.filename, chunks: data.chunks });
+                const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+                docs.push({ doc_id: data.doc_id, name: data.filename, chunks: data.chunks, type: ext, size: file.size });
                 document.getElementById('indexing-steps').style.display = 'none';
                 document.getElementById('upload-zone').style.display = '';
                 document.getElementById('file-input').value = '';
@@ -121,6 +159,7 @@ function handleFileUpload(file) {
             }, 500);
         })
         .catch(() => {
+            stepTimers.forEach(clearTimeout);
             showToast('Servizio non disponibile. Avvia api.py.');
             resetAfterError();
         });
@@ -128,7 +167,8 @@ function handleFileUpload(file) {
 
 function markStepDone(id) {
     const el = document.getElementById(id);
-    el.className = 'step-item done';
+    el.classList.remove('text-muted-2');
+    el.classList.add('text-green-light');
     el.querySelector('i').className = 'fa-solid fa-check fa-xs';
 }
 
@@ -137,6 +177,38 @@ function resetAfterError() {
     document.getElementById('upload-zone').style.display = '';
     document.getElementById('file-input').value = '';
     updateUI();
+}
+
+// ── Rimuovere un documento ──────────────────────────────────────────────────
+function removeDoc(docId) {
+    fetch('/remove-doc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ doc_id: docId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.error) {
+            showToast(data.error);
+            return;
+        }
+        docs = docs.filter(d => d.doc_id !== docId);
+        if (docs.length === 0) {
+            sessionId = null;
+            document.getElementById('chat-messages').innerHTML = `
+                <div id="chat-empty" class="m-auto text-center text-muted fs-7">
+                    <i class="fa-regular fa-file-lines d-block mb-2 empty-icon"></i>
+                    <div class="fw-semibold mb-1 text-secondary">Nessun documento caricato</div>
+                    Carica un documento nella barra laterale<br>per iniziare a fare domande.
+                </div>
+            `;
+        }
+        updateUI();
+    })
+    .catch(() => showToast('Servizio non disponibile.'));
 }
 
 // ── Enviar mensagem ───────────────────────────────────────────────────────────
@@ -175,7 +247,7 @@ function sendMessage() {
                 appendBotBubble(`<em style="color:#ef4444;">${escapeHtml(data.error)}</em>`);
             }
         } else {
-            appendBotBubble(escapeHtml(data.resposta).replace(/\n/g, '<br>'));
+            appendBotBubble(escapeHtml(data.resposta).replace(/\n/g, '<br>'), true);
         }
         scrollToBottom();
     })
@@ -187,36 +259,84 @@ function sendMessage() {
 }
 
 function avatarHtml() {
-    return `<div class="bot-avatar">
-        <img src="/images/atomic.png" alt="Chat-bot avatar"
+    return `<div class="bot-avatar bg-lilac">
+        <img src="/images/bot-icon.png" alt="Chat-bot avatar"
              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <span class="fallback">WT</span>
+        <span class="fallback text-white fw-bold fs-8">TA</span>
     </div>`;
+}
+
+function formatTime() {
+    return new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
 }
 
 function appendUserBubble(text) {
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div class="bubble-user-wrapper">
-            <div class="bubble-user">${escapeHtml(text)}</div>
+        <div class="bubble-user-wrapper d-flex justify-content-end">
+            <div class="d-flex flex-column align-items-end">
+                <div class="bubble-user bg-purple fs-7 text-white">${escapeHtml(text)}</div>
+                <div class="text-muted fs-8 mt-1">${formatTime()}</div>
+            </div>
         </div>
     `);
 }
 
-function appendBotBubble(html) {
+function appendBotBubble(html, copyable = false) {
+    const copyBtn = copyable
+        ? `<button type="button" class="bubble-copy-btn" onclick="copyBubbleText(this)" title="Copia risposta"><i class="fa-regular fa-copy"></i></button>`
+        : '';
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div class="bubble-bot-wrapper">
+        <div class="bubble-bot-wrapper d-flex align-items-start gap-2">
             ${avatarHtml()}
-            <div class="bubble-bot">${html}</div>
+            <div class="bubble-bot fs-7">
+                <div class="bubble-bot-text">${html}</div>
+                <div class="d-flex align-items-center justify-content-end gap-2 text-muted fs-8 mt-2">
+                    <span>${formatTime()}</span>
+                    ${copyBtn}
+                </div>
+            </div>
         </div>
     `);
+}
+
+function copyBubbleText(btn) {
+    const bubble = btn.closest('.bubble-bot').querySelector('.bubble-bot-text');
+    const text = bubble.innerText;
+
+    const onCopied = () => {
+        const icon = btn.querySelector('i');
+        icon.className = 'fa-solid fa-check';
+        setTimeout(() => { icon.className = 'fa-regular fa-copy'; }, 1500);
+    };
+    const onFailed = () => showToast('Impossibile copiare il testo.');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopied).catch(onFailed);
+        return;
+    }
+
+    // Fallback per contesti non sicuri (es. http://*.test), dove Clipboard API non esiste
+    try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        onCopied();
+    } catch (e) {
+        onFailed();
+    }
 }
 
 function appendSpinnerBubble() {
     const id = 'spinner-' + Date.now();
     document.getElementById('chat-messages').insertAdjacentHTML('beforeend', `
-        <div id="${id}" class="bubble-bot-wrapper">
+        <div id="${id}" class="bubble-bot-wrapper d-flex align-items-start gap-2">
             ${avatarHtml()}
-            <div class="bubble-bot bubble-spinner">
+            <div class="bubble-bot fst-italic text-muted fs-7">
                 <span class="me-1">● ●</span> elaborazione in corso…
             </div>
         </div>
@@ -232,15 +352,20 @@ function scrollToBottom() {
 // ── Ricomincia ────────────────────────────────────────────────────────────────
 function ricomincia() {
     Swal.fire({
-        title: 'Ricominciare?',
-        text: 'La sessione e la cronologia verranno eliminate.',
+        title: 'Reset della chat?',
+        text: 'Tutti i file caricati e la cronologia della chat verranno eliminati.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sì, ricomincia',
+        confirmButtonText: 'Sì, resetta',
         cancelButtonText: 'Annulla',
-        confirmButtonColor: '#ef4444',
-        cancelButtonColor: '#94a3b8',
         reverseButtons: true,
+        heightAuto: false,
+        buttonsStyling: false,
+        customClass: {
+            confirmButton: 'btn btn-danger btn-sm',
+            cancelButton: 'btn btn-secondary btn-sm',
+            actions: 'gap-2',
+        },
     }).then(result => {
         if (!result.isConfirmed) return;
         _doRicomincia();
