@@ -1,4 +1,4 @@
-<x-master title="AI W-TECH">
+<x-master title="Tanas'AI">
 
     {{-- LAYOUT PRINCIPAL --}}
     <div class="chat-layout">

@@ -50,4 +50,18 @@ class ChatControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(['ok' => true]);
     }
+
+    public function test_remove_doc_valida_doc_id_obrigatorio(): void
+    {
+        $response = $this->postJson('/remove-doc', []);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['doc_id']);
+    }
+
+    public function test_remove_doc_sem_sessao_devolve_404(): void
+    {
+        $response = $this->postJson('/remove-doc', ['doc_id' => 'qualsiasi']);
+        $response->assertStatus(404);
+        $response->assertJson(['error' => 'Sessione non trovata. Carica un documento prima.']);
+    }
 }

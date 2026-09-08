@@ -68,6 +68,35 @@ class ChatController extends Controller
         return response()->json($response->json(), $response->status());
     }
 
+    public function removeDoc(Request $request)
+    {
+        $request->validate(['doc_id' => 'required|string']);
+
+        $sessionId = session('python_session_id');
+        if (! $sessionId) {
+            return response()->json(
+                ['error' => 'Sessione non trovata. Carica un documento prima.'],
+                404
+            );
+        }
+
+        $response = Http::timeout(60)->post($this->apiUrl.'/api/remove-doc', [
+            'session_id' => $sessionId,
+            'doc_id' => $request->doc_id,
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            if (($data['total_docs'] ?? 0) === 0) {
+                session()->forget('python_session_id');
+            }
+
+            return response()->json($data);
+        }
+
+        return response()->json($response->json(), $response->status());
+    }
+
     public function clear(Request $request)
     {
         $sessionId = session('python_session_id');

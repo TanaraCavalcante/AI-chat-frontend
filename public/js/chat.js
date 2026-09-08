@@ -1,45 +1,67 @@
 // ── Estado ────────────────────────────────────────────────────────────────────
 let sessionId = null;
-let docs = []; // [{name: string, chunks: number}]
+let docs = []; // [{doc_id: string, name: string, chunks: number, type: string, size: number}]
+
+const FILE_TYPE_META = {
+    '.pdf':  { label: 'PDF',  icon: 'fa-file-pdf',   cls: 'doc-icon-pdf' },
+    '.docx': { label: 'DOCX', icon: 'fa-file-word',  cls: 'doc-icon-docx' },
+    '.xlsx': { label: 'XLSX', icon: 'fa-file-excel', cls: 'doc-icon-xlsx' },
+    '.txt':  { label: 'TXT',  icon: 'fa-file-lines', cls: 'doc-icon-txt' },
+};
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.getElementById('file-input').addEventListener('change', function () {
     if (this.files[0]) handleFileUpload(this.files[0]);
 });
 
+const uploadZone = document.getElementById('upload-zone');
+['dragenter', 'dragover'].forEach(evt => uploadZone.addEventListener(evt, e => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+}));
+['dragleave', 'drop'].forEach(evt => uploadZone.addEventListener(evt, e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+}));
+uploadZone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileUpload(file);
+});
+
 // ── Atualiza a UI com base no estado atual ────────────────────────────────────
 function updateUI() {
     const hasDocs = docs.length > 0;
 
-    // Badge de estado
-    const badge = document.getElementById('status-badge');
-    if (hasDocs) {
-        badge.className = 'badge-active px-3 py-1 rounded-pill fw-semibold';
-        badge.textContent = `● ${docs.length} ${docs.length === 1 ? 'fonte attiva' : 'fonti attive'}`;
-    } else {
-        badge.className = 'badge-no-doc px-3 py-1 rounded-pill fw-semibold';
-        badge.textContent = '● Nessun documento';
-    }
-
     // Lista de documentos
     const listSection = document.getElementById('doc-list-section');
     const listEl = document.getElementById('doc-list');
+    document.getElementById('doc-count-badge').textContent = docs.length;
     if (hasDocs) {
         listSection.style.display = '';
-        listEl.innerHTML = docs.map(d => `
-            <div class="doc-item">
-                <div class="fw-semibold text-truncate doc-item-name">
-                    <i class="fa-regular fa-file fa-xs me-1"></i>${escapeHtml(d.name)}
+        listEl.innerHTML = docs.map(d => {
+            const meta = FILE_TYPE_META[d.type] || FILE_TYPE_META['.txt'];
+            return `
+                <div class="doc-item">
+                    <div class="doc-icon ${meta.cls}"><i class="fa-solid ${meta.icon}"></i></div>
+                    <div class="doc-item-info">
+                        <div class="doc-item-name text-truncate">${escapeHtml(d.name)}</div>
+                        <div class="doc-item-meta">${meta.label} &middot; ${formatSize(d.size)}</div>
+                    </div>
+                    <div class="doc-item-actions">
+                        <span class="doc-item-status">Caricato</span>
+                        <button class="doc-item-remove" title="Rimuovi documento" onclick="removeDoc('${d.doc_id}')">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="doc-item-chunks">${d.chunks} chunk</div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     } else {
         listSection.style.display = 'none';
     }
 
     // Label e estado da zona de upload
-    document.getElementById('upload-label').textContent = hasDocs ? 'Aggiungi fonte' : 'Carica documento';
+    document.getElementById('upload-label').textContent = hasDocs ? 'Aggiungi fonte' : 'Carica un documento';
     const zone = document.getElementById('upload-zone');
     if (docs.length >= 5) {
         zone.style.opacity = '0.4';
@@ -67,6 +89,12 @@ function updateUI() {
     if (emptyEl) emptyEl.style.display = hasDocs ? 'none' : '';
 }
 
+function formatSize(bytes) {
+    if (!bytes && bytes !== 0) return '';
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 // ── Upload de documento ───────────────────────────────────────────────────────
 function handleFileUpload(file) {
     if (docs.length >= 5) {
@@ -75,25 +103,9 @@ function handleFileUpload(file) {
         return;
     }
 
-    // Mostrar estado de indexação
-    document.getElementById('status-badge').className = 'badge-indexing px-3 py-1 rounded-pill fw-semibold';
-    document.getElementById('status-badge').textContent = '⏳ Indicizzazione…';
     document.getElementById('indexing-steps').style.display = '';
     document.getElementById('upload-zone').style.display = 'none';
     document.getElementById('filename-progress').textContent = file.name;
-
-    // Reset visual dos steps
-    ['step-read', 'step-chunk', 'step-embed', 'step-faiss'].forEach(id => {
-        const el = document.getElementById(id);
-        el.className = 'step-item';
-        el.querySelector('i').className = 'fa-solid fa-circle-dot fa-xs';
-    });
-
-    // Animação client-side dos steps (simulada com timers)
-    setTimeout(() => markStepDone('step-read'), 300);
-    setTimeout(() => markStepDone('step-chunk'), 900);
-    setTimeout(() => markStepDone('step-embed'), 1800);
-    // step-faiss é marcado quando a resposta HTTP chegar
 
     // Enviar ficheiro ao Laravel
     const formData = new FormData();
@@ -110,15 +122,13 @@ function handleFileUpload(file) {
                 resetAfterError();
                 return;
             }
-            markStepDone('step-faiss');
-            setTimeout(() => {
-                sessionId = data.session_id;
-                docs.push({ name: data.filename, chunks: data.chunks });
-                document.getElementById('indexing-steps').style.display = 'none';
-                document.getElementById('upload-zone').style.display = '';
-                document.getElementById('file-input').value = '';
-                updateUI();
-            }, 500);
+            sessionId = data.session_id;
+            const ext = '.' + (file.name.split('.').pop() || '').toLowerCase();
+            docs.push({ doc_id: data.doc_id, name: data.filename, chunks: data.chunks, type: ext, size: file.size });
+            document.getElementById('indexing-steps').style.display = 'none';
+            document.getElementById('upload-zone').style.display = '';
+            document.getElementById('file-input').value = '';
+            updateUI();
         })
         .catch(() => {
             showToast('Servizio non disponibile. Avvia api.py.');
@@ -126,17 +136,43 @@ function handleFileUpload(file) {
         });
 }
 
-function markStepDone(id) {
-    const el = document.getElementById(id);
-    el.className = 'step-item done';
-    el.querySelector('i').className = 'fa-solid fa-check fa-xs';
-}
-
 function resetAfterError() {
     document.getElementById('indexing-steps').style.display = 'none';
     document.getElementById('upload-zone').style.display = '';
     document.getElementById('file-input').value = '';
     updateUI();
+}
+
+// ── Rimuovere un documento ──────────────────────────────────────────────────
+function removeDoc(docId) {
+    fetch('/remove-doc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ doc_id: docId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.error) {
+            showToast(data.error);
+            return;
+        }
+        docs = docs.filter(d => d.doc_id !== docId);
+        if (docs.length === 0) {
+            sessionId = null;
+            document.getElementById('chat-messages').innerHTML = `
+                <div id="chat-empty">
+                    <i class="fa-regular fa-file-lines d-block mb-2 empty-icon"></i>
+                    <div class="fw-semibold mb-1 empty-title">Nessun documento caricato</div>
+                    Carica un documento nella barra laterale<br>per iniziare a fare domande.
+                </div>
+            `;
+        }
+        updateUI();
+    })
+    .catch(() => showToast('Servizio non disponibile.'));
 }
 
 // ── Enviar mensagem ───────────────────────────────────────────────────────────
@@ -188,9 +224,9 @@ function sendMessage() {
 
 function avatarHtml() {
     return `<div class="bot-avatar">
-        <img src="/images/atomic.png" alt="Chat-bot avatar"
+        <img src="/images/bot-icon.png" alt="Chat-bot avatar"
              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-        <span class="fallback">WT</span>
+        <span class="fallback">TA</span>
     </div>`;
 }
 

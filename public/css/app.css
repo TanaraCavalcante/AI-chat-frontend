@@ -2,65 +2,97 @@
 html, body { height: 100%; margin: 0; overflow: hidden;}
 body { display: flex; flex-direction: column; background: #f8fafc; }
 
-/* ── Navbar ──────────────────────────────────────────────────────────────────── */
-.wtech-navbar { background: linear-gradient(to right,#1a2f6e, #3a5cc5); }
-.wtech-navbar img.logo { height: 36px; display: block; }
-.wtech-navbar .logo-wrapper { border-radius: 20px; overflow: hidden; padding: 4px 8px; }
-.navbar-title    { font-size: 16px; line-height: 1.2; letter-spacing: .01em; }
-.navbar-subtitle { font-size: 11px; line-height: 1.2; }
+/* ── generics ─────────────────────────────────────────────────────────────── */
+.fs-7 { font-size: 0.75rem; }
+.fs-8 { font-size: 0.5rem; }
+.text-purple { color: #7c6ff0; }
+.bg-purple { background: #7c6ff0; }
+.bg-card { background: #211c3d; }
+.border-faint { border-color: rgba(255,255,255,.06) !important; }
 
 /* ── Chat layout ─────────────────────────────────────────────────────────────── */
 .chat-layout { display: flex; flex: 1; overflow: hidden; }
 .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-/* ── Sidebar ─────────────────────────────────────────────────────────────────── */
+/* ── Sidebar (aside) ─────────────────────────────────────────────────────────── */
 #sidebar {
-    width: 250px; min-width: 190px;
-    background: #fff; border-right: 1px solid #e2e8f0;
-    display: flex; flex-direction: column; gap: 14px;
-    padding: 14px 12px; overflow-y: auto;
+    width: 270px; min-width: 220px;
+    background: #191530; border-right: 1px solid rgba(255,255,255,.06);
+    display: flex; flex-direction: column; gap: 18px;
+    padding: 18px 16px; overflow-y: auto;
 }
-.section-label { font-size: 12px; color: #94a3b8; letter-spacing: .5px; }
 
-/* ── Status badge ────────────────────────────────────────────────────────────── */
-#status-badge { font-size: 12px; display: inline-block; }
-.badge-no-doc   { background: #fee2e2; color: #991b1b; }
-.badge-indexing { background: #fef9c3; color: #854d0e; }
-.badge-active   { background: #dcfce7; color: #166534; }
+/* ── Header do brand ─────────────────────────────────────────────────────────── */
+.aside-brand-icon { height: 3.5rem; width: auto; object-fit: contain; }
 
-/* ── Indexing steps ──────────────────────────────────────────────────────────── */
-#filename-progress { font-size: 10px; word-break: break-all; }
-.progress-tiny { height: 4px; }
-.progress-indexing { width: 100%; background: #1a2f6e; }
-.step-list { display: flex; flex-direction: column; gap: 5px; }
-.step-item { font-size: 11px; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
-.step-item.active { color: #1a2f6e; font-weight: 600; }
-.step-item.done   { color: #16a34a; }
-
-/* ── Document list ───────────────────────────────────────────────────────────── */
-#doc-list { display: flex; flex-direction: column; gap: 6px; }
-.doc-item { background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 8px; font-size: 10px; }
-.doc-item-name { color: #166534; max-width: 150px; }
-.doc-item-chunks { color: #4ade80; }
+/* ── Section label / count badge ─────────────────────────────────────────────── */
+.section-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.section-label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: #8f89ac; font-weight: 600; }
+.doc-count-badge {
+    background: rgba(124,111,240,.2); color: #b5aefb; font-size: 11px; font-weight: 700;
+    min-width: 20px; height: 20px; border-radius: 10px; padding: 0 6px;
+    display: flex; align-items: center; justify-content: center;
+}
 
 /* ── Upload zone ─────────────────────────────────────────────────────────────── */
 .upload-zone {
-    border: 2px dashed #94a3b8; border-radius: 8px;
-    padding: 12px; text-align: center; cursor: pointer;
+    border: 1.5px dashed rgba(124,111,240,.45); border-radius: 10px;
+    padding: 16px 10px; text-align: center; cursor: pointer;
+    background: rgba(124,111,240,.05);
     transition: border-color .2s, background .2s;
 }
-.upload-zone:hover { border-color: #1a2f6e; background: #f0f4ff; }
-.upload-icon { font-size: 18px; color: #64748b; }
-#upload-label { font-size: 12px; color: #475569; }
-.upload-hint { font-size: 9px; color: #94a3b8; }
+.upload-zone:hover, .upload-zone.dragover { border-color: #8b7cf6; background: rgba(124,111,240,.12); }
+.upload-icon { font-size: 20px; color: #a79cf7; display: block; margin-bottom: 6px; }
+#upload-label { font-size: 13px; color: #f0eefa; }
+.upload-hint-main { font-size: 10.5px; color: #8f89ac; margin-top: 2px; }
+.upload-hint { font-size: 9.5px; color: #6b6690; margin-top: 6px; }
+
+/* ── Stato di indicizzazione ──────────────────────────────────────────────────── */
+#indexing-steps {
+    border: 1.5px solid rgba(124,111,240,.35); border-radius: 10px;
+    padding: 14px 10px; text-align: center; background: rgba(124,111,240,.06);
+}
+.indexing-filename { font-size: 11px; color: #f0eefa; font-weight: 600; word-break: break-all; margin-bottom: 6px; }
+.indexing-spinner { font-size: 11px; color: #a79cf7; }
+
+/* ── Document list ───────────────────────────────────────────────────────────── */
+#doc-list { display: flex; flex-direction: column; gap: 8px; }
+.doc-item {
+    background: #211c3d; border: 1px solid rgba(255,255,255,.06); border-radius: 10px;
+    padding: 9px 10px; display: flex; align-items: center; gap: 9px;
+}
+.doc-icon {
+    width: 30px; height: 30px; min-width: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.doc-icon-pdf  { background: rgba(248,113,113,.16); color: #f87171; }
+.doc-icon-docx { background: rgba(96,165,250,.16);  color: #60a5fa; }
+.doc-icon-xlsx { background: rgba(74,222,128,.16);  color: #4ade80; }
+.doc-icon-txt  { background: rgba(148,163,184,.16); color: #94a3b8; }
+.doc-item-info { flex: 1; min-width: 0; }
+.doc-item-name { color: #f0eefa; font-size: 12px; font-weight: 600; }
+.doc-item-meta { color: #8f89ac; font-size: 10px; margin-top: 1px; }
+.doc-item-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.doc-item-status { color: #6b6690; font-size: 9.5px; }
+.doc-item-remove {
+    width: 20px; height: 20px; border: none; background: transparent; color: #6b6690;
+    border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; transition: background .2s, color .2s;
+}
+.doc-item-remove:hover { background: rgba(248,113,113,.15); color: #f87171; }
+
+/* ── Come funziona ───────────────────────────────────────────────────────────── */
+.how-step-num {
+    width: 18px; height: 18px; min-width: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+}
 
 /* ── Ricomincia ──────────────────────────────────────────────────────────────── */
 #btn-ricomincia {
-    border: 1px solid #fca5a5; background: #fff5f5; color: #ef4444;
-    font-size: 11px; padding: 6px 10px; border-radius: 6px; cursor: pointer;
-    margin-top: auto;
+    border: 1px solid rgba(248,113,113,.35); background: rgba(248,113,113,.08); color: #f87171;
+    font-size: 11px; padding: 7px 10px; border-radius: 8px; cursor: pointer;
 }
-#btn-ricomincia:hover { background: #fee2e2; }
+#btn-ricomincia:hover { background: rgba(248,113,113,.16); }
 
 /* ── Chat messages ───────────────────────────────────────────────────────────── */
 #chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -71,14 +103,14 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 /* ── Bubbles ─────────────────────────────────────────────────────────────────── */
 .bubble-user-wrapper { display: flex; justify-content: flex-end; }
 .bubble-bot-wrapper  { display: flex; align-items: flex-end; gap: 8px; }
-.bubble-user { background: #1a2f6e; color: #fff; border-radius: 14px 14px 2px 14px; padding: 9px 14px; max-width: 72%; font-size: 13px; }
+.bubble-user { background: #7c6ff0; color: #fff; border-radius: 14px 14px 2px 14px; padding: 9px 14px; max-width: 72%; font-size: 13px; }
 .bubble-bot  { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px 14px 14px 2px; padding: 9px 14px; max-width: 72%; font-size: 13px; }
 .bubble-spinner { color: #94a3b8; font-style: italic; font-size: 12px; }
 
 /* ── Bot avatar ──────────────────────────────────────────────────────────────── */
 .bot-avatar {
     width: 40px; height: 40px; min-width: 35px;
-    background: white; border: 1px solid #3a5cc5;
+    background: white; border: 1px solid #7c6ff0;
     border-radius: 50%; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
 }
@@ -96,7 +128,7 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 #fonti-counter { font-size: 11px; color: #94a3b8; white-space: nowrap; font-weight: 500; }
 .btn-send {
     width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: none;
-    background: #1a2f6e; color: #fff; display: flex; align-items: center; justify-content: center;
+    background: #7c6ff0; color: #fff; display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: background .2s;
 }
 .btn-send:disabled { background: #e2e8f0; color: #94a3b8; cursor: default; }
