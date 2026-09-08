@@ -9,6 +9,11 @@ const FILE_TYPE_META = {
     '.txt':  { label: 'TXT',  icon: 'fa-file-lines', cls: 'doc-icon-txt' },
 };
 
+// ── Sidebar retrattile ───────────────────────────────────────────────────────
+function toggleSidebarPin() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.getElementById('file-input').addEventListener('change', function () {
     if (this.files[0]) handleFileUpload(this.files[0]);
@@ -303,9 +308,14 @@ function ricomincia() {
         showCancelButton: true,
         confirmButtonText: 'Sì, rimuovi tutto',
         cancelButtonText: 'Annulla',
-        confirmButtonColor: '#ef4444',
-        cancelButtonColor: '#94a3b8',
         reverseButtons: true,
+        heightAuto: false,
+        buttonsStyling: false,
+        customClass: {
+            confirmButton: 'btn btn-danger btn-sm',
+            cancelButton: 'btn btn-secondary btn-sm',
+            actions: 'gap-2',
+        },
     }).then(result => {
         if (!result.isConfirmed) return;
         _doRicomincia();

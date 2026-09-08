@@ -16,14 +16,36 @@ body { display: flex; flex-direction: column; background: #f8fafc; }
 
 /* ── Sidebar (aside) ─────────────────────────────────────────────────────────── */
 #sidebar {
-    width: 270px; min-width: 220px;
+    width: 280px; min-width: 220px;
+    position: relative; flex-shrink: 0;
+    transition: width .2s ease;
+}
+#sidebar.collapsed { width: 72px; min-width: 72px; }
+
+#sidebar-inner {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 280px;
     background: #191530; border-right: 1px solid rgba(255,255,255,.06);
     display: flex; flex-direction: column; gap: 18px;
-    padding: 18px 16px; overflow-y: auto;
+    padding: 18px 16px; overflow-y: auto; overflow-x: hidden;
+    transition: width .2s ease, box-shadow .2s ease;
 }
+#sidebar.collapsed #sidebar-inner { width: 72px; padding: 18px 12px; }
+#sidebar.collapsed:hover #sidebar-inner {
+    width: 280px; padding: 18px 16px; z-index: 40;
+    box-shadow: 8px 0 24px rgba(0,0,0,.45);
+}
+#sidebar.collapsed:not(:hover) .aside-full { display: none; }
+#sidebar.collapsed .aside-header { justify-content: center; }
 
 /* ── Header do brand ─────────────────────────────────────────────────────────── */
 .aside-brand-icon { height: 3.5rem; width: auto; object-fit: contain; }
+.sidebar-pin-toggle {
+    width: 22px; height: 22px; border: none; background: transparent; color: #8f89ac;
+    border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; transition: background .2s, color .2s, transform .2s;
+}
+.sidebar-pin-toggle:hover { background: rgba(124,111,240,.15); color: #fff; }
+#sidebar.collapsed .sidebar-pin-toggle { transform: rotate(180deg); }
 
 /* ── Section label / count badge ─────────────────────────────────────────────── */
 .section-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }

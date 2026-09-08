@@ -1,3 +1,9 @@
+## [2026-09-08] - Sidebar retrattile con anteprima al passaggio del mouse
+
+### Aggiunto
+- Sidebar collassabile: chiusa mostra solo l'icona del bot (rail stretta), passando il mouse sopra si apre come overlay temporaneo (senza spostare l'area chat), e cliccando sul chevron mentre e' aperta resta fissa (docked) finche' non viene richiuso
+- Aggiornata la favicon del progetto
+
 ## [2026-09-08] - Sezione "Come funziona?" a scomparsa e chiarezza sul pulsante di reset
 
 ### Modificato
